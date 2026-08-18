@@ -1,0 +1,115 @@
+Name: Google Sheets
+PackageName: Google.Sheets
+WindowFilter: msedge.exe
+AdditionalWindowFilters:
+- chrome.exe
+- firefox.exe
+- brave.exe
+BackgroundProcess: false
+# Localized product name in the tab title: "Google Sheets" / "Google Trang tính".
+TitleRegex: "Google (Sheets|Trang tính)"
+Updated: 2026-08-17
+Shortcuts:
+- SectionName: Editing
+  Properties:
+  - Name: Edit the active cell
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - F2
+  - Name: Insert today's date
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - ;
+  - Name: Insert the current time
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - ;
+  - Name: New line inside a cell
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: true
+      Keys:
+      - Enter
+  - Name: Fill down
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - D
+  - Name: Fill right
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - R
+  - Name: Paste values only
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - V
+  - Name: Insert a link
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - K
+- SectionName: Selection
+  Properties:
+  - Name: Select the whole column
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - Space
+  - Name: Select the whole row
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - Space
+  - Name: Jump to the edge of the data
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - "↑↓←→"
+  - Name: All keyboard shortcuts
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - /

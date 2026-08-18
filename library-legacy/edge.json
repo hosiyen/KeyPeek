@@ -1,0 +1,108 @@
+{
+  "app": "Microsoft Edge",
+  "match": {
+    "processName": [
+      "msedge"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "Tabs & windows": [
+        {
+          "key": "T",
+          "description": "Open a new tab",
+          "recommended": true
+        },
+        {
+          "key": "T",
+          "mods": [
+            "shift"
+          ],
+          "description": "Reopen the last closed tab",
+          "recommended": true
+        },
+        {
+          "key": "W",
+          "description": "Close the current tab"
+        },
+        {
+          "key": "Tab",
+          "description": "Switch to the next tab"
+        },
+        {
+          "key": "Tab",
+          "mods": [
+            "shift"
+          ],
+          "description": "Switch to the previous tab"
+        },
+        {
+          "key": "N",
+          "description": "Open a new window"
+        },
+        {
+          "key": "N",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open a new InPrivate window",
+          "recommended": true
+        }
+      ],
+      "Navigation": [
+        {
+          "key": "L",
+          "description": "Select the URL in the address bar",
+          "recommended": true
+        },
+        {
+          "key": "R",
+          "description": "Reload the current page"
+        },
+        {
+          "key": "F",
+          "description": "Find on the page",
+          "recommended": true
+        }
+      ],
+      "Page & tools": [
+        {
+          "key": "D",
+          "description": "Save the current tab as a favorite"
+        },
+        {
+          "key": "H",
+          "description": "Open history"
+        },
+        {
+          "key": "J",
+          "description": "Open downloads"
+        },
+        {
+          "key": "I",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open Developer Tools",
+          "recommended": true
+        },
+        {
+          "key": "P",
+          "description": "Print the current page"
+        }
+      ]
+    },
+    "alt": {
+      "Navigation": [
+        {
+          "key": "Left",
+          "description": "Go back"
+        },
+        {
+          "key": "Right",
+          "description": "Go forward"
+        }
+      ]
+    }
+  }
+}

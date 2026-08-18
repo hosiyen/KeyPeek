@@ -1,0 +1,120 @@
+﻿<Window x:Class="KeyPeek.UI.EditShortcutsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:KeyPeek.UI"
+        Title="My shortcuts" Width="560" Height="620"
+        ResizeMode="CanResize" MinWidth="480" MinHeight="480"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" FontFamily="Segoe UI"
+        Background="{DynamicResource KpBg}" Foreground="{DynamicResource KpTextBody}"
+        UseLayoutRounding="True" TextOptions.TextFormattingMode="Display">
+    <Grid Margin="20,16,20,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock x:Name="HeaderTitle" Style="{StaticResource KpPageTitle}" />
+            <TextBlock Style="{StaticResource KpHint}" TextWrapping="Wrap"
+                       Text="Your edits live in your own file. Library updates never overwrite them, and a shortcut you add here wins over the shipped one." />
+        </StackPanel>
+
+        <!-- add / edit form -->
+        <Border Grid.Row="1" Style="{StaticResource KpCard}">
+            <StackPanel>
+                <TextBlock Text="Add a shortcut" Style="{StaticResource KpCardTitle}" Margin="0,0,0,10" />
+
+                <TextBlock Text="Keys" Style="{StaticResource KpBody}" FontSize="12" />
+                <Border x:Name="CaptureBorder" Background="{DynamicResource KpSurface2}"
+                        BorderBrush="{DynamicResource KpLine}" BorderThickness="1"
+                        CornerRadius="{DynamicResource KpRadius}" Padding="10,7" Margin="0,4,0,2"
+                        Focusable="True" KeyboardNavigation.IsTabStop="True"
+                        PreviewKeyDown="Capture_PreviewKeyDown" GotKeyboardFocus="Capture_GotFocus"
+                        LostKeyboardFocus="Capture_LostFocus" MouseLeftButtonDown="Capture_Click"
+                        Cursor="Hand">
+                    <Grid>
+                        <TextBlock x:Name="CapturePlaceholder" Style="{StaticResource KpHint}"
+                                   Text="Click here, then press the shortcut" />
+                        <ui:KeyCapsElement x:Name="CaptureCaps" VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+                <TextBlock x:Name="CaptureHint" Style="{StaticResource KpHint}" Margin="0,0,0,8"
+                           Text="Esc clears · press a second combination to record a sequence (max 3)" />
+
+                <TextBlock Text="What it does" Style="{StaticResource KpBody}" FontSize="12" />
+                <TextBox x:Name="DescriptionBox" Style="{StaticResource KpTextBox}" Margin="0,4,0,8"
+                         TextChanged="Form_Changed" />
+
+                <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                        <TextBlock Text="Group" Style="{StaticResource KpBody}" FontSize="12" />
+                        <ComboBox x:Name="SectionBox" IsEditable="True" Margin="0,4,0,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+                        <TextBlock Text="Suggest it" Style="{StaticResource KpBody}" FontSize="12"
+                                   Margin="0,0,0,4" />
+                        <ToggleButton x:Name="RecommendedToggle" Style="{StaticResource KpToggle}"
+                                      HorizontalAlignment="Left" />
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock x:Name="Warning" Style="{StaticResource KpHint}"
+                           Foreground="{DynamicResource KpWarn}" TextWrapping="Wrap"
+                           Visibility="Collapsed" Margin="0,0,0,8" />
+
+                <Button x:Name="AddButton" Content="Add shortcut" Style="{StaticResource KpButtonPrimary}"
+                        HorizontalAlignment="Left" IsEnabled="False" Click="Add_Click" />
+            </StackPanel>
+        </Border>
+
+        <!-- existing user entries -->
+        <Border Grid.Row="2" Style="{StaticResource KpCard}" Margin="0,0,0,12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" x:Name="ListTitle" Text="Your shortcuts"
+                           Style="{StaticResource KpCardTitle}" Margin="0,0,0,8" />
+                <TextBlock Grid.Row="1" x:Name="EmptyHint" Style="{StaticResource KpHint}"
+                           Text="Nothing yet. Anything you add appears here and in the panel."
+                           VerticalAlignment="Top" />
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="EntryList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ui:KeyCapsElement Grid.Column="0" Chords="{Binding Chords}"
+                                                       VerticalAlignment="Center" Margin="0,0,10,0" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Description}"
+                                               Style="{StaticResource KpBody}" VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <Button Grid.Column="2" Content="Remove" Style="{StaticResource KpLink}"
+                                            Tag="{Binding KeysText}" Click="Remove_Click" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Open the file" Style="{StaticResource KpButton}" Margin="0,0,8,0"
+                    Click="OpenFile_Click" />
+            <Button Content="Done" Style="{StaticResource KpButtonPrimary}" IsDefault="True"
+                    IsCancel="True" Click="Done_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

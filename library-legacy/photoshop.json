@@ -1,0 +1,122 @@
+{
+  "app": "Adobe Photoshop",
+  "match": {
+    "processName": [
+      "Photoshop"
+    ]
+  },
+  "tables": {
+    "plain": {
+      "Tools": [
+        {
+          "key": "V",
+          "description": "Select the Move tool"
+        },
+        {
+          "key": "B",
+          "description": "Select the Brush tool"
+        },
+        {
+          "key": "E",
+          "description": "Select the Eraser tool"
+        },
+        {
+          "key": "T",
+          "description": "Select the Type tool"
+        },
+        {
+          "key": "[",
+          "description": "Decrease the brush size",
+          "recommended": true
+        },
+        {
+          "key": "]",
+          "description": "Increase the brush size",
+          "recommended": true
+        },
+        {
+          "key": "X",
+          "description": "Swap foreground and background colors"
+        }
+      ],
+      "Layers": [
+        {
+          "key": "F7",
+          "description": "Show or hide the Layers panel"
+        }
+      ]
+    },
+    "ctrl": {
+      "Layers": [
+        {
+          "key": "N",
+          "mods": [
+            "shift"
+          ],
+          "description": "Create a new layer"
+        },
+        {
+          "key": "J",
+          "description": "Duplicate to a new layer",
+          "recommended": true
+        },
+        {
+          "key": "G",
+          "description": "Group the selected layers"
+        },
+        {
+          "key": "G",
+          "mods": [
+            "alt"
+          ],
+          "description": "Create or release a clipping mask"
+        },
+        {
+          "key": "E",
+          "mods": [
+            "shift"
+          ],
+          "description": "Merge visible layers"
+        }
+      ],
+      "Editing": [
+        {
+          "key": "T",
+          "description": "Free Transform the selection or layer",
+          "recommended": true
+        },
+        {
+          "key": "Z",
+          "description": "Undo the last action",
+          "recommended": true
+        },
+        {
+          "key": "Z",
+          "mods": [
+            "shift"
+          ],
+          "description": "Step forward in history"
+        },
+        {
+          "key": "D",
+          "description": "Deselect the current selection"
+        },
+        {
+          "key": "M",
+          "description": "Open the Curves dialog"
+        }
+      ]
+    },
+    "alt": {
+      "Layers": [
+        {
+          "key": "G",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Create or release a clipping mask"
+        }
+      ]
+    }
+  }
+}

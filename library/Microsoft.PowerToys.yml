@@ -1,0 +1,97 @@
+PackageName: Microsoft.PowerToys
+Name: PowerToys
+BackgroundProcess: True
+WindowFilter: "powertoys.exe"
+Shortcuts:
+  - SectionName: General
+    Properties:
+# <Populate start>
+      - Name: Always On Top
+        Shortcut: 
+        - Win: True
+          Ctrl: True
+          Alt: False
+          Shift: False
+          Keys:
+            - 84
+        Description: Pin a window
+      - Name: Always On Top
+        Shortcut: 
+        - Win: True
+          Ctrl: True
+          Alt: False
+          Shift: False
+          Keys:
+            - 187
+        Description: Increase opacity
+      - Name: Always On Top
+        Shortcut: 
+        - Win: True
+          Ctrl: True
+          Alt: False
+          Shift: False
+          Keys:
+            - 189
+        Description: Decrease opacity
+      - Name: Color Picker
+        Shortcut: 
+        - Win: True
+          Ctrl: False
+          Alt: False
+          Shift: True
+          Keys:
+            - 67
+        Description: Pick a color
+      - Name: Command Palette
+        Shortcut: 
+        - Win: True
+          Ctrl: False
+          Alt: True
+          Shift: False
+          Keys:
+            - 32
+      - Name: FancyZones
+        Shortcut: 
+        - Win: True
+          Ctrl: False
+          Alt: False
+          Shift: True
+          Keys:
+            - 192
+        Description: Open editor
+      - Name: Mouse Highlighter
+        Shortcut: 
+        - Win: True
+          Ctrl: False
+          Alt: False
+          Shift: True
+          Keys:
+            - 72
+        Description: Turn on clicks highlighter
+      - Name: Peek
+        Shortcut: 
+        - Win: False
+          Ctrl: True
+          Alt: False
+          Shift: False
+          Keys:
+            - 32
+      - Name: Screen Ruler
+        Shortcut: 
+        - Win: True
+          Ctrl: True
+          Alt: False
+          Shift: True
+          Keys:
+            - 77
+        Description: Start measurement
+      - Name: Text Extractor
+        Shortcut: 
+        - Win: True
+          Ctrl: False
+          Alt: False
+          Shift: True
+          Keys:
+            - 84
+        Description: Start text extraction
+# <Populate end>

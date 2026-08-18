@@ -1,0 +1,112 @@
+{
+  "app": "Microsoft Word",
+  "match": {
+    "processName": [
+      "WINWORD"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "General": [
+        {
+          "key": "N",
+          "description": "Create a new document"
+        },
+        {
+          "key": "O",
+          "description": "Open a document"
+        },
+        {
+          "key": "S",
+          "description": "Save the document",
+          "recommended": true
+        },
+        {
+          "key": "P",
+          "description": "Print the document"
+        },
+        {
+          "key": "Z",
+          "description": "Undo the last action",
+          "recommended": true
+        },
+        {
+          "key": "F",
+          "description": "Search the document",
+          "recommended": true
+        }
+      ],
+      "Formatting": [
+        {
+          "key": "B",
+          "description": "Bold the selected text",
+          "recommended": true
+        },
+        {
+          "key": "I",
+          "description": "Italicize the selected text",
+          "recommended": true
+        },
+        {
+          "key": "U",
+          "description": "Underline the selected text"
+        },
+        {
+          "key": "E",
+          "description": "Center the paragraph"
+        },
+        {
+          "key": "L",
+          "description": "Align the paragraph left"
+        },
+        {
+          "key": "1",
+          "mods": [
+            "alt"
+          ],
+          "description": "Apply Heading 1 style"
+        },
+        {
+          "key": "N",
+          "mods": [
+            "shift"
+          ],
+          "description": "Return to the Normal style"
+        }
+      ],
+      "Editing & navigation": [
+        {
+          "key": "H",
+          "description": "Find and replace"
+        },
+        {
+          "key": "K",
+          "description": "Insert a hyperlink"
+        },
+        {
+          "key": "Enter",
+          "description": "Insert a page break"
+        },
+        {
+          "key": "Home",
+          "description": "Jump to the start of the document"
+        },
+        {
+          "key": "End",
+          "description": "Jump to the end of the document"
+        }
+      ]
+    },
+    "alt": {
+      "Formatting": [
+        {
+          "key": "1",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Apply Heading 1 style"
+        }
+      ]
+    }
+  }
+}

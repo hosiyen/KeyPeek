@@ -1,0 +1,124 @@
+Name: YouTube
+PackageName: Google.YouTube
+WindowFilter: msedge.exe
+AdditionalWindowFilters:
+- chrome.exe
+- firefox.exe
+- brave.exe
+BackgroundProcess: false
+TitleRegex: YouTube
+Updated: 2026-08-17
+Shortcuts:
+- SectionName: Playback
+  Properties:
+  - Name: Play or pause
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - K
+  - Name: Back 10 seconds
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - J
+  - Name: Forward 10 seconds
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - L
+  - Name: Slow down playback
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - ","
+  - Name: Speed up playback
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - "."
+  - Name: Next video
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - N
+  - Name: Previous video
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - P
+- SectionName: View and sound
+  Properties:
+  - Name: Mute or unmute
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - M
+  - Name: Fullscreen
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - F
+  - Name: Theater mode
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - T
+  - Name: Miniplayer
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - I
+  - Name: Captions on or off
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - C
+  - Name: Search
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - /

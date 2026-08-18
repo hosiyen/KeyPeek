@@ -1,0 +1,186 @@
+{
+  "app": "Windows",
+  "match": {
+    "global": true
+  },
+  "tables": {
+    "win": {
+      "Essentials": [
+        {
+          "key": "S",
+          "mods": [
+            "shift"
+          ],
+          "description": "Take a screenshot (snip a region)",
+          "recommended": true
+        },
+        {
+          "key": "V",
+          "description": "Open clipboard history",
+          "recommended": true
+        },
+        {
+          "key": "E",
+          "description": "Open File Explorer",
+          "recommended": true
+        },
+        {
+          "key": "L",
+          "description": "Lock the PC",
+          "recommended": true
+        },
+        {
+          "keys": "Win",
+          "description": "Open the Start menu"
+        },
+        {
+          "key": "D",
+          "description": "Show or hide the desktop"
+        },
+        {
+          "key": "I",
+          "description": "Open Settings"
+        },
+        {
+          "key": "Tab",
+          "description": "Open Task View"
+        }
+      ],
+      "Windows & desktops": [
+        {
+          "key": "Left",
+          "description": "Snap window to the left half"
+        },
+        {
+          "key": "Right",
+          "description": "Snap window to the right half"
+        },
+        {
+          "key": "Up",
+          "description": "Maximize the window"
+        },
+        {
+          "key": "Down",
+          "description": "Minimize or restore the window"
+        },
+        {
+          "key": "M",
+          "description": "Minimize all windows"
+        },
+        {
+          "key": "D",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Create a new virtual desktop"
+        },
+        {
+          "key": "Right",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Switch to the next virtual desktop"
+        },
+        {
+          "key": "Left",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Switch to the previous virtual desktop"
+        },
+        {
+          "key": "F4",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Close the current virtual desktop"
+        }
+      ],
+      "System": [
+        {
+          "key": "X",
+          "description": "Open the quick link (power user) menu"
+        },
+        {
+          "key": "R",
+          "description": "Open the Run dialog"
+        },
+        {
+          "key": ".",
+          "description": "Open the emoji panel"
+        },
+        {
+          "key": "P",
+          "description": "Choose a presentation display mode"
+        },
+        {
+          "key": "+",
+          "description": "Zoom in with Magnifier"
+        }
+      ]
+    },
+    "alt": {
+      "Essentials": [
+        {
+          "key": "Tab",
+          "description": "Switch between open apps",
+          "recommended": true
+        },
+        {
+          "key": "F4",
+          "description": "Close the active app"
+        }
+      ]
+    },
+    "ctrl": {
+      "Windows & desktops": [
+        {
+          "key": "D",
+          "mods": [
+            "win"
+          ],
+          "description": "Create a new virtual desktop"
+        },
+        {
+          "key": "Right",
+          "mods": [
+            "win"
+          ],
+          "description": "Switch to the next virtual desktop"
+        },
+        {
+          "key": "Left",
+          "mods": [
+            "win"
+          ],
+          "description": "Switch to the previous virtual desktop"
+        },
+        {
+          "key": "F4",
+          "mods": [
+            "win"
+          ],
+          "description": "Close the current virtual desktop"
+        }
+      ],
+      "System": [
+        {
+          "key": "Esc",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open Task Manager",
+          "recommended": true
+        }
+      ]
+    },
+    "plain": {
+      "System": [
+        {
+          "key": "PrintScreen",
+          "description": "Copy a screenshot of the whole screen"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "app": "Visual Studio Code",
+  "match": {
+    "processName": [
+      "Code"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "General": [
+        {
+          "key": "P",
+          "mods": [
+            "shift"
+          ],
+          "description": "Show the Command Palette",
+          "recommended": true
+        },
+        {
+          "key": "P",
+          "description": "Quick open files by name",
+          "recommended": true
+        },
+        {
+          "key": "\u0060",
+          "description": "Toggle the integrated terminal",
+          "recommended": true
+        },
+        {
+          "key": "B",
+          "description": "Toggle the sidebar"
+        },
+        {
+          "key": ",",
+          "description": "Open settings"
+        },
+        {
+          "keys": "Ctrl+K Ctrl+S",
+          "description": "Open the keyboard shortcuts editor"
+        }
+      ],
+      "Editing": [
+        {
+          "key": "D",
+          "description": "Add next match to the selection",
+          "recommended": true
+        },
+        {
+          "key": "L",
+          "mods": [
+            "shift"
+          ],
+          "description": "Select all occurrences of the selection"
+        },
+        {
+          "key": "K",
+          "mods": [
+            "shift"
+          ],
+          "description": "Delete the current line"
+        },
+        {
+          "key": "/",
+          "description": "Toggle line comment",
+          "recommended": true
+        }
+      ],
+      "Navigation": [
+        {
+          "key": "G",
+          "description": "Go to a line number"
+        },
+        {
+          "key": "O",
+          "mods": [
+            "shift"
+          ],
+          "description": "Jump to a symbol in the file"
+        }
+      ]
+    },
+    "alt": {
+      "Editing": [
+        {
+          "key": "Up",
+          "description": "Move the current line up"
+        },
+        {
+          "key": "Down",
+          "description": "Move the current line down"
+        },
+        {
+          "key": "F",
+          "mods": [
+            "shift"
+          ],
+          "description": "Format the document"
+        }
+      ],
+      "Navigation": [
+        {
+          "key": "Left",
+          "description": "Go back to the previous location"
+        }
+      ]
+    },
+    "plain": {
+      "Navigation": [
+        {
+          "key": "F12",
+          "description": "Go to definition",
+          "recommended": true
+        },
+        {
+          "key": "F2",
+          "description": "Rename the symbol"
+        }
+      ]
+    }
+  }
+}

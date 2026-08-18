@@ -1,0 +1,123 @@
+{
+  "app": "Discord",
+  "match": {
+    "processName": [
+      "Discord"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "Navigation": [
+        {
+          "key": "K",
+          "description": "Find or start a direct message",
+          "recommended": true
+        },
+        {
+          "key": "Up",
+          "mods": [
+            "alt"
+          ],
+          "description": "Go to the previous server"
+        },
+        {
+          "key": "Down",
+          "mods": [
+            "alt"
+          ],
+          "description": "Go to the next server"
+        }
+      ],
+      "Messages & panels": [
+        {
+          "key": "E",
+          "description": "Open the emoji picker"
+        },
+        {
+          "key": "P",
+          "description": "Toggle the pinned messages panel"
+        },
+        {
+          "key": "U",
+          "description": "Toggle the member list"
+        },
+        {
+          "key": "/",
+          "description": "Show the keyboard shortcut reference"
+        }
+      ],
+      "Voice & calls": [
+        {
+          "key": "M",
+          "mods": [
+            "shift"
+          ],
+          "description": "Toggle mute",
+          "recommended": true
+        },
+        {
+          "key": "D",
+          "mods": [
+            "shift"
+          ],
+          "description": "Toggle deafen",
+          "recommended": true
+        },
+        {
+          "key": "Enter",
+          "description": "Answer an incoming call"
+        }
+      ]
+    },
+    "alt": {
+      "Navigation": [
+        {
+          "key": "Up",
+          "description": "Go to the previous channel"
+        },
+        {
+          "key": "Down",
+          "description": "Go to the next channel"
+        },
+        {
+          "key": "Up",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Go to the previous server"
+        },
+        {
+          "key": "Down",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Go to the next server"
+        },
+        {
+          "key": "Down",
+          "mods": [
+            "shift"
+          ],
+          "description": "Jump to the next unread channel"
+        }
+      ]
+    },
+    "plain": {
+      "Messages & panels": [
+        {
+          "key": "Esc",
+          "description": "Mark the channel as read",
+          "recommended": true
+        }
+      ]
+    },
+    "shift": {
+      "Messages & panels": [
+        {
+          "key": "Esc",
+          "description": "Mark the server as read"
+        }
+      ]
+    }
+  }
+}

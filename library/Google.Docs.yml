@@ -1,0 +1,100 @@
+Name: Google Docs
+PackageName: Google.Docs
+WindowFilter: msedge.exe
+AdditionalWindowFilters:
+- chrome.exe
+- firefox.exe
+- brave.exe
+BackgroundProcess: false
+# The tab title uses the LOCALIZED product name: "Google Docs" in English,
+# "Google Tài liệu" in Vietnamese.
+TitleRegex: "Google (Docs|Tài liệu)"
+Updated: 2026-08-17
+Shortcuts:
+- SectionName: Writing
+  Properties:
+  - Name: Insert a comment
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: true
+      Keys:
+      - M
+  - Name: Insert a link
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - K
+  - Name: Paste without formatting
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - V
+  - Name: Clear formatting
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - \
+  - Name: Word count
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - C
+  - Name: Numbered list
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - "7"
+  - Name: Bulleted list
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - "8"
+- SectionName: Document
+  Properties:
+  - Name: Open version history
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: true
+      Keys:
+      - H
+  - Name: Find and replace
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - H
+  - Name: All keyboard shortcuts
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - /

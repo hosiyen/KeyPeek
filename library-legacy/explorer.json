@@ -1,0 +1,108 @@
+{
+  "app": "File Explorer",
+  "match": {
+    "processName": [
+      "explorer"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "Files & folders": [
+        {
+          "key": "N",
+          "mods": [
+            "shift"
+          ],
+          "description": "Create a new folder",
+          "recommended": true
+        },
+        {
+          "key": "C",
+          "description": "Copy the selected item"
+        },
+        {
+          "key": "X",
+          "description": "Cut the selected item"
+        },
+        {
+          "key": "V",
+          "description": "Paste"
+        },
+        {
+          "key": "Z",
+          "description": "Undo the last file operation"
+        }
+      ],
+      "Navigation": [
+        {
+          "key": "F",
+          "description": "Focus the search box"
+        },
+        {
+          "key": "N",
+          "description": "Open a new Explorer window"
+        },
+        {
+          "key": "W",
+          "description": "Close the current window"
+        }
+      ]
+    },
+    "plain": {
+      "Files & folders": [
+        {
+          "key": "F2",
+          "description": "Rename the selected item",
+          "recommended": true
+        },
+        {
+          "key": "Delete",
+          "description": "Move the selected item to the Recycle Bin"
+        }
+      ],
+      "Navigation": [
+        {
+          "key": "F5",
+          "description": "Refresh the current folder"
+        }
+      ]
+    },
+    "alt": {
+      "Files & folders": [
+        {
+          "key": "Enter",
+          "description": "Open Properties for the selected item",
+          "recommended": true
+        }
+      ],
+      "Navigation": [
+        {
+          "key": "Up",
+          "description": "Go up to the parent folder",
+          "recommended": true
+        },
+        {
+          "key": "D",
+          "description": "Focus the address bar",
+          "recommended": true
+        },
+        {
+          "key": "Left",
+          "description": "Go back"
+        },
+        {
+          "key": "Right",
+          "description": "Go forward"
+        }
+      ]
+    },
+    "shift": {
+      "Files & folders": [
+        {
+          "key": "Delete",
+          "description": "Delete permanently (skips Recycle Bin)"
+        }
+      ]
+    }
+  }
+}

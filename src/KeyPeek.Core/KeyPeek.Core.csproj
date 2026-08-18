@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>KeyPeek.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- PowerToys Shortcut Guide manifests (KeyPeek's native format) are YAML. -->
+    <PackageReference Include="YamlDotNet" Version="15.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Vietnamese translations for the shortcut corpus (ShortcutL10n): EN<TAB>VI, one
+         line per unique description/section name. Data, not code — the manifests stay
+         byte-identical to upstream. -->
+    <EmbeddedResource Include="Resources\vi-shortcuts.tsv" LogicalName="KeyPeek.Core.Resources.vi-shortcuts.tsv" />
+  </ItemGroup>
+
+</Project>

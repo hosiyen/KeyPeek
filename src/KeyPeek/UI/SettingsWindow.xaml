@@ -1,0 +1,836 @@
+﻿<Window x:Class="KeyPeek.UI.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:KeyPeek.UI"
+        Title="KeyPeek" Width="1020" Height="680" MinWidth="860" MinHeight="560"
+        WindowStartupLocation="CenterScreen" FontFamily="Segoe UI"
+        Background="{DynamicResource KpBg}" Foreground="{DynamicResource KpTextBody}"
+        UseLayoutRounding="True" TextOptions.TextFormattingMode="Display">
+
+    <Window.Resources>
+        <!-- One shortcut row: key caps (shared component) + description + provenance dot -->
+        <DataTemplate x:Key="LibRowTemplate">
+            <Border x:Name="Row" Background="Transparent" CornerRadius="5" Padding="8,3"
+                    ToolTip="{Binding RowTooltip}">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource KpHover}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="14" />
+                        <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Ellipse Grid.Column="0" Width="6" Height="6" HorizontalAlignment="Left"
+                             VerticalAlignment="Center" Fill="{Binding DotBrush}"
+                             Visibility="{Binding DotVisibility}" ToolTip="{Binding DotTooltip}" />
+
+                    <ui:KeyCapsElement Grid.Column="1" Chords="{Binding Chords}"
+                                       VerticalAlignment="Center" Margin="0,0,10,0" />
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="★" FontSize="10" Foreground="{DynamicResource KpStar}"
+                                   Margin="0,0,5,0" VerticalAlignment="Center"
+                                   Visibility="{Binding StarVisibility}" />
+                        <TextBlock Text="{Binding Description}" FontSize="13"
+                                   Foreground="{DynamicResource KpTextBody}"
+                                   TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <!-- The pencil appears on hover. On every row it was 140 identical
+                         buttons competing with the shortcuts themselves; the row is the
+                         thing to read, the action is the thing to reach for. -->
+                    <Button Grid.Column="3" Content="&#xE70F;" FontFamily="Segoe MDL2 Assets"
+                            FontSize="11" Padding="7,4" Margin="0"
+                            Click="EditRow_Click" Tag="{Binding}" ToolTip="Edit in your library">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource KpButton}">
+                                <Setter Property="Opacity" Value="0" />
+                                <Setter Property="Visibility" Value="{Binding EditVisibility}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver,
+                                                     RelativeSource={RelativeSource AncestorType=Border}}"
+                                                 Value="True">
+                                        <Setter Property="Opacity" Value="1" />
+                                    </DataTrigger>
+                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                        <Setter Property="Opacity" Value="1" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- One conflict -->
+        <DataTemplate x:Key="ConflictTemplate">
+            <Border Style="{StaticResource KpCard}" Padding="14,12" Margin="0,0,0,8">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                        <ui:KeyCapsElement Chords="{Binding Chords}" VerticalAlignment="Center"
+                                           Margin="0,0,10,0" />
+                        <TextBlock Text="{Binding Kind}" FontSize="11.5"
+                                   Foreground="{DynamicResource KpWarn}" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding Line1}" Style="{StaticResource KpBody}" />
+                    <TextBlock Text="{Binding Line2}" Style="{StaticResource KpBody}" Margin="0,2,0,0" />
+                    <TextBlock Text="{Binding Winner}" Style="{StaticResource KpHint}" Margin="0,6,0,0" />
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="212" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ===== top bar: identity + global search ===== -->
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Height="56">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="212" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="KeyPeek" FontSize="16" FontWeight="SemiBold"
+                       Foreground="{DynamicResource KpText}" VerticalAlignment="Center"
+                       Margin="20,0,0,0" />
+            <Border x:Name="SearchBox" Grid.Column="2" Background="{DynamicResource KpSurface}"
+                    BorderBrush="{DynamicResource KpLine}" BorderThickness="1" CornerRadius="16"
+                    Width="320" Height="34" Margin="0,0,24,0" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <!-- The glyph makes the field read as search before anything is typed;
+                         the pill shape matches how Windows draws its own search fields. -->
+                    <TextBlock Grid.Column="0" Text="&#xE721;" FontFamily="Segoe MDL2 Assets"
+                               FontSize="13" Foreground="{DynamicResource KpTextDim}"
+                               Margin="12,0,0,0" VerticalAlignment="Center" />
+                    <TextBox x:Name="GlobalSearch" Grid.Column="1" Style="{StaticResource KpTextBox}"
+                             Background="Transparent" BorderThickness="0" Padding="8,0,10,0"
+                             GotKeyboardFocus="Search_FocusChanged" LostKeyboardFocus="Search_FocusChanged"
+                             TextChanged="GlobalSearch_TextChanged" VerticalAlignment="Center" />
+                    <TextBlock x:Name="GlobalSearchPlaceholder" Grid.Column="1" IsHitTestVisible="False"
+                               Text="Search settings and shortcuts" FontSize="13"
+                               Foreground="{DynamicResource KpTextFaint}" Margin="10,0"
+                               VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ===== left navigation ===== -->
+        <ListBox x:Name="Nav" Grid.Row="1" Grid.Column="0" Background="Transparent"
+                 BorderThickness="0" ItemContainerStyle="{StaticResource KpNavItem}"
+                 SelectionChanged="Nav_SelectionChanged" Margin="8,0,8,8">
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                               Margin="0,0,12,0" Foreground="{DynamicResource KpTextBody}" />
+                    <TextBlock Text="Home" FontSize="13" Foreground="{DynamicResource KpTextBody}" />
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                               Margin="0,0,12,0" Foreground="{DynamicResource KpTextBody}" />
+                    <TextBlock Text="Settings" FontSize="13" Foreground="{DynamicResource KpTextBody}" />
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE8FD;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                               Margin="0,0,12,0" Foreground="{DynamicResource KpTextBody}" />
+                    <TextBlock Text="Shortcut library" FontSize="13" Foreground="{DynamicResource KpTextBody}" />
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="14"
+                               Margin="0,0,12,0" Foreground="{DynamicResource KpTextBody}" />
+                    <TextBlock Text="Conflicts" FontSize="13" Foreground="{DynamicResource KpTextBody}" />
+                    <Border x:Name="NavConflictBadge" Background="{DynamicResource KpWarn}"
+                            CornerRadius="9" Padding="6,0" Margin="8,0,0,0" MinWidth="18"
+                            Visibility="Collapsed">
+                        <TextBlock x:Name="NavConflictCount" FontSize="10.5" FontWeight="SemiBold"
+                                   Foreground="#FF1B1B27" HorizontalAlignment="Center" />
+                    </Border>
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
+
+        <!-- ===== content ===== -->
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,0">
+
+            <!-- HOME -->
+            <ScrollViewer x:Name="PageHome" VerticalScrollBarVisibility="Auto" Padding="24,0,24,24">
+                <StackPanel MaxWidth="704" HorizontalAlignment="Left">
+                    <TextBlock Text="Home" Style="{StaticResource KpPageTitle}" />
+
+                    <TextBlock x:Name="HomeGreeting" Style="{StaticResource KpHint}" Margin="2,-8,0,14" />
+
+                    <!-- Four facts, each led by the number rather than a sentence: at a
+                         glance this page should answer "is anything wrong, and how much do
+                         I have" without being read word by word. -->
+                    <WrapPanel>
+                        <Border Style="{StaticResource KpStatCard}" Width="340">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border x:Name="HomeConflictChip" Style="{StaticResource KpIconChip}">
+                                        <TextBlock x:Name="HomeConflictIcon" Text="&#xE73E;"
+                                                   FontFamily="Segoe MDL2 Assets" FontSize="15"
+                                                   Foreground="{DynamicResource KpGood}" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock x:Name="HomeConflictValue" Style="{StaticResource KpStatValue}" />
+                                        <TextBlock Text="Conflicts" Style="{StaticResource KpStatLabel}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock x:Name="HomeConflictText" Style="{StaticResource KpHint}"
+                                           Margin="0,10,0,0" TextWrapping="Wrap" />
+                                <Button Content="View conflicts" Style="{StaticResource KpLink}"
+                                        HorizontalAlignment="Left" Margin="0,8,0,0"
+                                        Click="GoConflicts_Click" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource KpStatCard}" Width="340">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Style="{StaticResource KpIconChip}">
+                                        <TextBlock Text="&#xE753;" FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="15" Foreground="{DynamicResource KpAccent}" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock x:Name="HomeLibraryValue" Style="{StaticResource KpStatValue}" />
+                                        <TextBlock Text="Library updates" Style="{StaticResource KpStatLabel}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock x:Name="HomeLibraryText" Style="{StaticResource KpHint}"
+                                           Margin="0,10,0,0" TextWrapping="Wrap" />
+                                <Button x:Name="HomeCheckNow" Content="Check now"
+                                        Style="{StaticResource KpLink}" HorizontalAlignment="Left"
+                                        Margin="0,8,0,0" Click="CheckNow_Click" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource KpStatCard}" Width="340">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Style="{StaticResource KpIconChip}">
+                                        <TextBlock Text="&#xE8FD;" FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="15" Foreground="{DynamicResource KpAccent}" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock x:Name="HomeCoverageValue" Style="{StaticResource KpStatValue}" />
+                                        <TextBlock Text="Apps covered" Style="{StaticResource KpStatLabel}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock x:Name="HomeCoverageText" Style="{StaticResource KpHint}"
+                                           Margin="0,10,0,0" TextWrapping="Wrap" />
+                                <Button Content="Browse library" Style="{StaticResource KpLink}"
+                                        HorizontalAlignment="Left" Margin="0,8,0,0"
+                                        Click="GoLibrary_Click" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource KpStatCard}" Width="340">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Style="{StaticResource KpIconChip}">
+                                        <TextBlock Text="&#xE765;" FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="15" Foreground="{DynamicResource KpAccent}" />
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <ui:KeyCapsElement x:Name="HomeTriggerCaps"
+                                                           HorizontalAlignment="Left" Margin="0,1,0,2" />
+                                        <TextBlock Text="Hold to reveal" Style="{StaticResource KpStatLabel}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock x:Name="HomeTriggerText" Style="{StaticResource KpHint}"
+                                           Margin="0,10,0,0" TextWrapping="Wrap" />
+                                <Button Content="Change triggers" Style="{StaticResource KpLink}"
+                                        HorizontalAlignment="Left" Margin="0,8,0,0"
+                                        Click="GoSettings_Click" />
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
+
+                    <!-- footer -->
+                    <StackPanel Margin="2,10,0,0">
+                        <TextBlock x:Name="HomeVersion" Style="{StaticResource KpHint}" />
+                        <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,0"
+                                   Text="Shortcut data derived from Microsoft PowerToys, MIT licensed." />
+                        <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,0"
+                                   Text="Keystrokes are never logged. KeyPeek only ever downloads two things, both read-only and carrying no user data: shortcut definitions, and each app's official logo from its own vendor." />
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <Button Content="Open library folder" Style="{StaticResource KpLink}"
+                                    Click="OpenFolder_Click" Margin="0,0,16,0" />
+                            <Button Content="Open log" Style="{StaticResource KpLink}" Click="OpenLog_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- SETTINGS -->
+            <ScrollViewer x:Name="PageSettings" VerticalScrollBarVisibility="Auto"
+                          Padding="24,0,24,24" Visibility="Collapsed">
+                <StackPanel MaxWidth="640" HorizontalAlignment="Left">
+                    <TextBlock Text="Settings" Style="{StaticResource KpPageTitle}" />
+
+                    <!-- trigger keys -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Trigger keys" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="Hold any of these keys to reveal the shortcut panel, pre-filtered to that key." />
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton x:Name="TriggerCtrl" Content="Ctrl" Style="{StaticResource KpCapToggle}"
+                                              Checked="Trigger_Changed" Unchecked="Trigger_Changed" />
+                                <ToggleButton x:Name="TriggerWin" Content="Win" Style="{StaticResource KpCapToggle}"
+                                              Checked="Trigger_Changed" Unchecked="Trigger_Changed" />
+                                <ToggleButton x:Name="TriggerAlt" Content="Alt" Style="{StaticResource KpCapToggle}"
+                                              Checked="Trigger_Changed" Unchecked="Trigger_Changed" />
+                                <ToggleButton x:Name="TriggerShift" Content="Shift" Style="{StaticResource KpCapToggle}"
+                                              Checked="Trigger_Changed" Unchecked="Trigger_Changed" />
+                            </StackPanel>
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,10,0,0"
+                                       Text="Shift is off by default: holding Shift while typing capitals is normal typing. Win and Alt holds are masked so releasing them doesn't open the Start menu or the app's menu bar." />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- hold delay -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Hold delay" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="How long a trigger key must be held before the panel appears." />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Slider x:Name="DelaySlider" Grid.Column="0" Minimum="200" Maximum="800"
+                                        TickFrequency="50" IsSnapToTickEnabled="True"
+                                        Style="{StaticResource KpSlider}"
+                                        ValueChanged="DelaySlider_ValueChanged" />
+                                <Border Grid.Column="1" Background="{DynamicResource KpAccentSubtle}"
+                                        CornerRadius="5" Padding="9,3" Margin="12,0,0,0">
+                                    <TextBlock x:Name="DelayValue" FontSize="13" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource KpText}" Text="400 ms" />
+                                </Border>
+                            </Grid>
+
+                            <Border x:Name="DelayTestStrip" Background="{DynamicResource KpSurface2}"
+                                    BorderBrush="{DynamicResource KpLine}" BorderThickness="1"
+                                    CornerRadius="6" Padding="12,10" Margin="0,12,0,0">
+                                <TextBlock x:Name="DelayTestText" Style="{StaticResource KpBody}"
+                                           Text="Hold Ctrl with this window focused to feel the timing." />
+                            </Border>
+
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,8,0,0"
+                                       Text="The same hold time applies to every trigger key." />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- accent -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Accent colour" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="Used for the held key, selected rows and links. By default KeyPeek borrows the colour you already chose in Windows." />
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton x:Name="AccentSystem" Content="Windows"
+                                              Style="{StaticResource KpCapToggle}" Click="Accent_Click"
+                                              Margin="0,0,8,0" />
+                                <ToggleButton x:Name="AccentIndigo" Content="Indigo"
+                                              Style="{StaticResource KpCapToggle}" Click="Accent_Click"
+                                              Margin="0,0,8,0" />
+                                <ToggleButton x:Name="AccentViolet" Content="Violet"
+                                              Style="{StaticResource KpCapToggle}" Click="Accent_Click"
+                                              Margin="0,0,8,0" />
+                                <ToggleButton x:Name="AccentTeal" Content="Teal"
+                                              Style="{StaticResource KpCapToggle}" Click="Accent_Click"
+                                              Margin="0,0,8,0" />
+                                <ToggleButton x:Name="AccentAmber" Content="Amber"
+                                              Style="{StaticResource KpCapToggle}" Click="Accent_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- motion -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Motion" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="The panel fades in over about a tenth of a second." />
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="Animate the panel" Style="{StaticResource KpBody}" />
+                                    <TextBlock x:Name="MotionHint" Style="{StaticResource KpHint}"
+                                               Text="Turn this off if the panel ever looks like it stutters — it then appears instantly." />
+                                </StackPanel>
+                                <ToggleButton x:Name="AnimateToggle" Style="{StaticResource KpToggle}"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Checked="Motion_Changed" Unchecked="Motion_Changed" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- panel position -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Panel position" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="Where the panel appears on the screen you're working on." />
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton x:Name="PosTop" Content="Top" Style="{StaticResource KpCapToggle}"
+                                              Click="Position_Click" Margin="0,0,8,0" />
+                                <ToggleButton x:Name="PosCenter" Content="Center" Style="{StaticResource KpCapToggle}"
+                                              Click="Position_Click" Margin="0,0,8,0" />
+                                <ToggleButton x:Name="PosBottom" Content="Bottom" Style="{StaticResource KpCapToggle}"
+                                              Click="Position_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- explore mode -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Keyboard navigation" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="By default KeyPeek only watches your keys — it never takes one. Turn this on to steer the panel from the keyboard." />
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="Explore mode" Style="{StaticResource KpBody}" />
+                                    <TextBlock Style="{StaticResource KpHint}"
+                                               Text="While the panel is open: ↑↓ move, ←→ jump between groups, Enter runs the selected shortcut. Those keys go to KeyPeek instead of the app — only while the panel is on screen." />
+                                </StackPanel>
+                                <ToggleButton x:Name="ExploreToggle" Style="{StaticResource KpToggle}"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Checked="Explore_Changed" Unchecked="Explore_Changed" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- suggestions -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Suggestions" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="A short strip at the top of the panel with the shortcuts you reach for most." />
+                            <Grid Margin="0,0,0,10">
+                                <StackPanel>
+                                    <TextBlock Text="Show “Frequently used”" Style="{StaticResource KpBody}" />
+                                    <TextBlock Style="{StaticResource KpHint}"
+                                               Text="Falls back to the curated picks until you've used a few." />
+                                </StackPanel>
+                                <ToggleButton x:Name="ShowFrequent" Style="{StaticResource KpToggle}"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Checked="Suggestions_Changed" Unchecked="Suggestions_Changed" />
+                            </Grid>
+                            <Grid Margin="0,0,0,10">
+                                <StackPanel>
+                                    <TextBlock Text="Learn from what I click here" Style="{StaticResource KpBody}" />
+                                    <TextBlock Style="{StaticResource KpHint}"
+                                               Text="Counts only rows clicked inside KeyPeek's panel. Your keystrokes are never read or recorded." />
+                                </StackPanel>
+                                <ToggleButton x:Name="TrackUsage" Style="{StaticResource KpToggle}"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Checked="Suggestions_Changed" Unchecked="Suggestions_Changed" />
+                            </Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Clear usage data" Style="{StaticResource KpButton}"
+                                        Click="ClearUsage_Click" />
+                                <TextBlock x:Name="UsageSummary" Style="{StaticResource KpHint}"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- appearance -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Appearance" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="Applies to the overlay and this window, instantly." />
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                                <TextBlock Text="Theme" Style="{StaticResource KpBody}" Width="110"
+                                           VerticalAlignment="Center" />
+                                <ToggleButton x:Name="ThemeDark" Content="Dark" Style="{StaticResource KpCapToggle}"
+                                              Click="Theme_Click" />
+                                <ToggleButton x:Name="ThemeLight" Content="Light" Style="{StaticResource KpCapToggle}"
+                                              Click="Theme_Click" />
+                                <ToggleButton x:Name="ThemeSystem" Content="Follow Windows"
+                                              Style="{StaticResource KpCapToggle}" Click="Theme_Click" />
+                            </StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="110" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Transparency" Style="{StaticResource KpBody}"
+                                           VerticalAlignment="Center" />
+                                <Slider Grid.Column="1" x:Name="OpacitySlider" Minimum="0" Maximum="40"
+                                        TickFrequency="2" IsSnapToTickEnabled="True"
+                                        Style="{StaticResource KpSlider}"
+                                        ValueChanged="OpacitySlider_ValueChanged" />
+                                <TextBlock Grid.Column="2" x:Name="OpacityValue" Style="{StaticResource KpBody}"
+                                           MinWidth="44" TextAlignment="Right" VerticalAlignment="Center"
+                                           Margin="12,0,0,0" Text="0%" />
+                            </Grid>
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,6,0,0"
+                                       Text="0% is a solid panel; higher lets the app underneath show through." />
+                            <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                <TextBlock Text="Language" Style="{StaticResource KpBody}" Width="110"
+                                           VerticalAlignment="Center" />
+                                <!-- Each language's own name, untranslated: someone stuck in
+                                     the wrong language must be able to read the way out. -->
+                                <ToggleButton x:Name="LangVi" Content="Tiếng Việt"
+                                              Style="{StaticResource KpCapToggle}" Click="Language_Click" />
+                                <ToggleButton x:Name="LangEn" Content="English"
+                                              Style="{StaticResource KpCapToggle}" Click="Language_Click" />
+                                <ToggleButton x:Name="LangSystem" Content="Follow Windows"
+                                              Style="{StaticResource KpCapToggle}" Click="Language_Click" />
+                            </StackPanel>
+                            <TextBlock Style="{StaticResource KpHint}" Margin="110,6,0,0"
+                                       Text="KeyPeek's own text. Shortcut descriptions come from the library and stay in English." />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- behavior -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Behavior" Style="{StaticResource KpCardTitle}" Margin="0,0,0,10" />
+                            <Grid Margin="0,0,0,10">
+                                <StackPanel>
+                                    <TextBlock Text="Start KeyPeek when I sign in" Style="{StaticResource KpBody}" />
+                                    <TextBlock Style="{StaticResource KpHint}"
+                                               Text="Uses the current-user Run key. No service, no scheduled task." />
+                                </StackPanel>
+                                <ToggleButton x:Name="RunAtStartup" Style="{StaticResource KpToggle}"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Checked="Behavior_Changed" Unchecked="Behavior_Changed" />
+                            </Grid>
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="Show over fullscreen apps" Style="{StaticResource KpBody}" />
+                                    <TextBlock Style="{StaticResource KpHint}"
+                                               Text="Off by default so games and video are never covered." />
+                                </StackPanel>
+                                <ToggleButton x:Name="ShowOverFullscreen" Style="{StaticResource KpToggle}"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Checked="Behavior_Changed" Unchecked="Behavior_Changed" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- library updates -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Library updates" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="Fetches corrected shortcut definitions from the community library. A read-only download; nothing about you or this PC is sent." />
+                            <Grid Margin="0,0,0,10">
+                                <StackPanel>
+                                    <TextBlock Text="Check automatically" Style="{StaticResource KpBody}" />
+                                    <TextBlock x:Name="UpdateStatus" Style="{StaticResource KpHint}" />
+                                </StackPanel>
+                                <ToggleButton x:Name="UpdatesEnabled" Style="{StaticResource KpToggle}"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Checked="Updates_Changed" Unchecked="Updates_Changed" />
+                            </Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Every" Style="{StaticResource KpBody}" VerticalAlignment="Center" />
+                                <TextBox x:Name="UpdateInterval" Width="56" Margin="8,0,8,0"
+                                         Style="{StaticResource KpTextBox}" LostFocus="Updates_Changed"
+                                         KeyDown="CommitOnEnter" />
+                                <TextBlock Text="days" Style="{StaticResource KpBody}" VerticalAlignment="Center"
+                                           Margin="0,0,16,0" />
+                                <Button x:Name="CheckNowButton" Content="Check now"
+                                        Style="{StaticResource KpButton}" Click="CheckNow_Click" />
+                            </StackPanel>
+                            <Expander Header="Advanced" Style="{StaticResource KpExpander}" Margin="0,8,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="Library source" Style="{StaticResource KpBody}" FontSize="12" />
+                                    <TextBox x:Name="UpdateUrl" Style="{StaticResource KpTextBox}" Margin="0,4,0,0"
+                                             LostFocus="UpdateUrl_Committed" KeyDown="CommitOnEnter" />
+                                    <TextBlock x:Name="UpdateUrlError" Style="{StaticResource KpHint}"
+                                               Foreground="{DynamicResource KpBad}" Margin="0,4,0,0"
+                                               Visibility="Collapsed" Text="Enter a valid http(s) URL." />
+                                    <Button Content="Reset to default" Style="{StaticResource KpButton}"
+                                            HorizontalAlignment="Left" Margin="0,8,0,0"
+                                            Click="ResetUrl_Click" />
+                                </StackPanel>
+                            </Expander>
+                            <Border Height="1" Background="{DynamicResource KpLine}" Margin="0,14,0,12" />
+                            <Grid>
+                                <StackPanel Margin="0,0,56,0">
+                                    <TextBlock Text="Download app logos" Style="{StaticResource KpBody}" />
+                                    <TextBlock Style="{StaticResource KpHint}"
+                                               Text="Fetches each app's official logo once, from that app's own vendor, and keeps it on this PC. KeyPeek ships no company logos of its own. Off: the list uses drawn icons and nothing is requested." />
+                                </StackPanel>
+                                <ToggleButton x:Name="LogosEnabled" Style="{StaticResource KpToggle}"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                                              Checked="Logos_Changed" Unchecked="Logos_Changed" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- excluded apps -->
+                    <Border Style="{StaticResource KpCard}">
+                        <StackPanel>
+                            <TextBlock Text="Excluded apps" Style="{StaticResource KpCardTitle}" />
+                            <TextBlock Style="{StaticResource KpHint}" Margin="0,4,0,10"
+                                       Text="The overlay never appears while these apps are focused." />
+                            <ItemsControl x:Name="ExclusionChips" Margin="0,0,0,10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{DynamicResource KpSurface2}"
+                                                BorderBrush="{DynamicResource KpLine}" BorderThickness="1"
+                                                CornerRadius="12" Padding="10,3" Margin="0,0,6,6">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding}" FontSize="12.5"
+                                                           Foreground="{DynamicResource KpTextBody}"
+                                                           VerticalAlignment="Center" />
+                                                <Button Content="&#xE711;" FontFamily="Segoe MDL2 Assets"
+                                                        FontSize="9" Style="{StaticResource KpLink}"
+                                                        Foreground="{DynamicResource KpTextDim}"
+                                                        Margin="8,0,0,0" VerticalAlignment="Center"
+                                                        Tag="{Binding}" Click="RemoveExclusion_Click"
+                                                        ToolTip="Remove" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock x:Name="ExclusionEmpty" Style="{StaticResource KpHint}"
+                                       Text="Nothing excluded." Margin="0,0,0,10" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="ExclusionInput" Width="200" Style="{StaticResource KpTextBox}"
+                                         KeyDown="ExclusionInput_KeyDown" />
+                                <Button Content="Add" Style="{StaticResource KpButton}" Margin="8,0,0,0"
+                                        Click="AddExclusion_Click" />
+                                <Button Content="Pick running app…" Style="{StaticResource KpButton}"
+                                        Click="PickExclusion_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- LIBRARY -->
+            <Grid x:Name="PageLibrary" Visibility="Collapsed" Margin="24,0,24,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="264" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- sidebar -->
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource KpCard}" Padding="0,8,0,0"
+                        Margin="0,0,16,0">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource KpLine}"
+                                BorderThickness="0,1,0,0" Padding="14,8">
+                            <TextBlock x:Name="LibraryTotals" Style="{StaticResource KpHint}" />
+                        </Border>
+                        <ListBox x:Name="AppList" Background="Transparent" BorderThickness="0"
+                                 ItemContainerStyle="{StaticResource KpAppItem}"
+                                 SelectionChanged="AppList_SelectionChanged"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+                    </DockPanel>
+                </Border>
+
+                <!-- detail -->
+                <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource KpCard}" Padding="0">
+                    <DockPanel>
+                        <!-- sticky header -->
+                        <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource KpLine}"
+                                BorderThickness="0,0,0,1" Padding="18,14">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image x:Name="DetailIcon" Grid.Column="0" Width="32" Height="32"
+                                       Margin="0,0,12,0" VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" MinWidth="180">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="DetailName" FontSize="16" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource KpText}" VerticalAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <Border x:Name="DetailBadge" Background="{DynamicResource KpAccentSubtle}"
+                                                CornerRadius="10" Padding="8,2" Margin="10,0,0,0"
+                                                Visibility="Collapsed" VerticalAlignment="Center">
+                                            <TextBlock Text="System-wide" FontSize="11"
+                                                       ToolTip="Shown in every app, alongside that app's own shortcuts"
+                                                       Foreground="{DynamicResource KpText}" />
+                                        </Border>
+                                    </StackPanel>
+                                    <TextBlock x:Name="DetailSummary" Style="{StaticResource KpHint}"
+                                               Margin="0,2,0,0" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <!-- Short labels on purpose: three long ones squeezed the app
+                                     name into "Winc…" and broke the summary into a column. -->
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button x:Name="MyShortcutsButton" Content="My shortcuts"
+                                            Style="{StaticResource KpButtonPrimary}"
+                                            ToolTip="Add or edit your own shortcuts for this app"
+                                            Click="MyShortcuts_Click" />
+                                    <Button x:Name="EditFileButton" Content="Open file"
+                                            Style="{StaticResource KpButton}"
+                                            ToolTip="Open this app's definition file in a text editor"
+                                            Click="OpenFile_Click" />
+                                    <Button x:Name="ResetOverridesButton" Content="Reset"
+                                            Style="{StaticResource KpButton}" Margin="0"
+                                            ToolTip="Delete my overrides for this app"
+                                            Click="ResetOverrides_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="18,10,10,16">
+                            <StackPanel>
+                                <!-- Virtualised by section: picking Illustrator (317 rows)
+                                     used to realise every row before the pane could paint.
+                                     Recycling keeps the containers as the user scrolls. -->
+                                <ItemsControl x:Name="DetailSections"
+                                              VirtualizingPanel.IsVirtualizing="True"
+                                              VirtualizingPanel.VirtualizationMode="Recycling">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="0,0,0,16">
+                                                <TextBlock Text="{Binding Name}" FontSize="11"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource KpSectionLabel}"
+                                                           Typography.Capitals="AllSmallCaps"
+                                                           Margin="8,0,0,4" />
+                                                <ItemsControl ItemsSource="{Binding Rows}"
+                                                              ItemTemplate="{StaticResource LibRowTemplate}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock x:Name="DetailEmpty" Style="{StaticResource KpBody}"
+                                           Foreground="{DynamicResource KpTextDim}" Margin="8,20,0,0"
+                                           Visibility="Collapsed" />
+                                <ItemsControl x:Name="ErrorList" Margin="8,8,0,0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" FontSize="12"
+                                                       Foreground="{DynamicResource KpBad}"
+                                                       TextWrapping="Wrap" Margin="0,1" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
+
+                <!-- toolbar -->
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12,0,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button Content="Reload library" Style="{StaticResource KpButton}" Click="Reload_Click" />
+                        <Button Content="Open library folder" Style="{StaticResource KpButton}"
+                                Click="OpenFolder_Click" />
+                    </StackPanel>
+                    <Button Content="Add app" Style="{StaticResource KpButtonPrimary}"
+                            HorizontalAlignment="Right" Margin="0" Click="AddApp_Click" />
+                </Grid>
+            </Grid>
+
+            <!-- CONFLICTS -->
+            <ScrollViewer x:Name="PageConflicts" VerticalScrollBarVisibility="Auto"
+                          Padding="24,0,24,24" Visibility="Collapsed">
+                <StackPanel MaxWidth="760" HorizontalAlignment="Left">
+                    <TextBlock Text="Conflicts" Style="{StaticResource KpPageTitle}" />
+                    <TextBlock Style="{StaticResource KpHint}" Margin="0,0,0,14"
+                               Text="Chords claimed in more than one place that could both apply to the same window. Two unrelated apps using the same chord is not a conflict." />
+                    <ItemsControl x:Name="ConflictList" ItemTemplate="{StaticResource ConflictTemplate}" />
+                    <Border x:Name="ConflictEmpty" Style="{StaticResource KpCard}" Padding="24"
+                            Visibility="Collapsed">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="28"
+                                       Foreground="{DynamicResource KpGood}" HorizontalAlignment="Center" />
+                            <TextBlock Text="No conflicts" Style="{StaticResource KpCardTitle}"
+                                       HorizontalAlignment="Center" Margin="0,10,0,0" />
+                            <TextBlock Style="{StaticResource KpHint}" HorizontalAlignment="Center"
+                                       Margin="0,4,0,0"
+                                       Text="Every chord in your library resolves to exactly one shortcut." />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- SEARCH RESULTS -->
+            <ScrollViewer x:Name="PageSearch" VerticalScrollBarVisibility="Auto"
+                          Padding="24,0,24,24" Visibility="Collapsed">
+                <StackPanel MaxWidth="760" HorizontalAlignment="Left">
+                    <TextBlock x:Name="SearchTitle" Style="{StaticResource KpPageTitle}" Text="Search" />
+                    <ItemsControl x:Name="SearchSettingsResults" Margin="0,0,0,14">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource KpButton}" HorizontalAlignment="Left"
+                                        Margin="0,0,0,6" Click="SearchSetting_Click" Tag="{Binding}">
+                                    <TextBlock Text="{Binding}" />
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl x:Name="SearchLibraryResults">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource KpCard}" Padding="12,10" Margin="0,0,0,8">
+                                    <StackPanel>
+                                        <Button Style="{StaticResource KpLink}" HorizontalAlignment="Left"
+                                                Content="{Binding AppName}" Tag="{Binding AppKey}"
+                                                Click="SearchApp_Click" FontSize="13" />
+                                        <ItemsControl ItemsSource="{Binding Rows}"
+                                                      ItemTemplate="{StaticResource LibRowTemplate}"
+                                                      Margin="0,6,0,0" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock x:Name="SearchEmpty" Style="{StaticResource KpBody}"
+                               Foreground="{DynamicResource KpTextDim}" Visibility="Collapsed"
+                               Text="No settings or shortcuts match that." />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

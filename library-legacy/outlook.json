@@ -1,0 +1,133 @@
+{
+  "app": "Microsoft Outlook",
+  "match": {
+    "processName": [
+      "OUTLOOK",
+      "olk"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "Mail": [
+        {
+          "key": "N",
+          "description": "Create a new message",
+          "recommended": true
+        },
+        {
+          "key": "Enter",
+          "description": "Send the message",
+          "recommended": true
+        },
+        {
+          "key": "R",
+          "description": "Reply to the message",
+          "recommended": true
+        },
+        {
+          "key": "R",
+          "mods": [
+            "shift"
+          ],
+          "description": "Reply all"
+        },
+        {
+          "key": "F",
+          "description": "Forward the message"
+        },
+        {
+          "key": "Q",
+          "description": "Mark as read"
+        },
+        {
+          "key": "U",
+          "description": "Mark as unread"
+        },
+        {
+          "key": "E",
+          "description": "Search your mail",
+          "recommended": true
+        }
+      ],
+      "Navigation": [
+        {
+          "key": "1",
+          "description": "Go to Mail",
+          "recommended": true
+        },
+        {
+          "key": "2",
+          "description": "Go to Calendar",
+          "recommended": true
+        },
+        {
+          "key": "3",
+          "description": "Go to People"
+        },
+        {
+          "key": ".",
+          "description": "Open the next message"
+        },
+        {
+          "key": ",",
+          "description": "Open the previous message"
+        }
+      ],
+      "Calendar": [
+        {
+          "key": "1",
+          "mods": [
+            "alt"
+          ],
+          "description": "Switch to Day view"
+        },
+        {
+          "key": "3",
+          "mods": [
+            "alt"
+          ],
+          "description": "Switch to Week view"
+        },
+        {
+          "key": "4",
+          "mods": [
+            "alt"
+          ],
+          "description": "Switch to Month view"
+        }
+      ]
+    },
+    "alt": {
+      "Calendar": [
+        {
+          "key": "1",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Switch to Day view"
+        },
+        {
+          "key": "3",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Switch to Week view"
+        },
+        {
+          "key": "4",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Switch to Month view"
+        },
+        {
+          "key": "Y",
+          "mods": [
+            "shift"
+          ],
+          "description": "Go to today"
+        }
+      ]
+    }
+  }
+}

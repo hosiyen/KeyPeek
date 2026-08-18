@@ -1,0 +1,299 @@
+<Window x:Class="KeyPeek.UI.OverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:KeyPeek.UI"
+        WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True"
+        Background="Transparent" ShowInTaskbar="False" Topmost="True"
+        ShowActivated="False" WindowStartupLocation="Manual"
+        FontFamily="Segoe UI">
+
+    <!-- All colors come from the Kp* palette (UI/Themes/*), applied by ThemeManager:
+         dark / light / follow-system, with the user's transparency on KpPanelBg. -->
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <ui:SameEntryConverter x:Key="IsSelectedConverter" />
+
+        <!-- Compact key cap used in shortcut rows: drawn as a physical key — rounded,
+             subtle vertical gradient, thicker bottom edge. -->
+        <DataTemplate x:Key="KeyCapTemplate">
+            <Border BorderBrush="{DynamicResource KpCapBorder}" BorderThickness="1,1,1,2.5"
+                    CornerRadius="4" Background="{DynamicResource KpCapBg}"
+                    Padding="5,1,5,2" Margin="0,0,3,0" MinWidth="22" SnapsToDevicePixels="True">
+                <TextBlock Text="{Binding}" FontSize="11.5" FontWeight="SemiBold"
+                           Foreground="{DynamicResource KpCapText}" HorizontalAlignment="Center" />
+            </Border>
+        </DataTemplate>
+
+        <!-- Hero cap: the held modifier, the panel's visual anchor -->
+        <DataTemplate x:Key="HeroCapTemplate">
+            <Border BorderBrush="{DynamicResource KpHeroBorder}" BorderThickness="1,1,1,3"
+                    CornerRadius="7" Background="{DynamicResource KpHeroBg}"
+                    Padding="13,4,13,6" Margin="0,0,7,0" MinWidth="44" SnapsToDevicePixels="True">
+                <TextBlock Text="{Binding}" FontSize="17" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center" />
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ChordTemplate">
+            <StackPanel Orientation="Horizontal" Margin="0,0,6,0">
+                <TextBlock Text="{Binding Prefix}" FontSize="10.5" FontStyle="Italic"
+                           Foreground="{DynamicResource KpTextDim}" VerticalAlignment="Center" Margin="0,0,4,0">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Prefix}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <ItemsControl ItemsSource="{Binding Keys}" ItemTemplate="{StaticResource KeyCapTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- One shortcut row: keys left (aligned), description right. Click = execute.
+             The description lifts to full contrast on hover so the eye follows the mouse. -->
+        <DataTemplate x:Key="EntryTemplate">
+            <Border CornerRadius="5" Padding="6,2,6,3"
+                    MouseLeftButtonUp="EntryRow_Click" Background="Transparent"
+                    ToolTip="{Binding Tooltip}">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource KpHover}" />
+                            </Trigger>
+                            <!-- Display-only rows are not buttons: no hand cursor, and (this
+                                 trigger is last, so it wins) no hover highlight either. -->
+                            <DataTrigger Binding="{Binding Executable}" Value="False">
+                                <Setter Property="Cursor" Value="Arrow" />
+                                <Setter Property="Background" Value="Transparent" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <!-- The entire row (caps, ★, description, hover ⚑) is drawn by one
+                     element — ~7 visuals per row became 2, which is what makes the
+                     first show of a large table fast. Explore mode's keyboard
+                     selection is a property on the same element, compared against
+                     the window's SelectedEntry. -->
+                <ui:ShortcutRowElement Entry="{Binding}"
+                                       AutomationProperties.AutomationId="ShortcutRow"
+                                       InvokeCommand="{Binding RowInvoke,
+                                           RelativeSource={RelativeSource AncestorType=Window}}">
+                    <ui:ShortcutRowElement.IsSelected>
+                        <MultiBinding Converter="{StaticResource IsSelectedConverter}">
+                            <Binding />
+                            <Binding Path="SelectedEntry"
+                                     RelativeSource="{RelativeSource AncestorType=Window}" />
+                        </MultiBinding>
+                    </ui:ShortcutRowElement.IsSelected>
+                </ui:ShortcutRowElement>
+            </Border>
+        </DataTemplate>
+
+        <!-- One section card. Group labels are quiet: small, uppercase, letter-spaced, and
+             separated from their rows by a hairline so a long card still reads as groups
+             rather than one column of text. Width 292 + right margin 8 = a 300-DIP slot. -->
+        <DataTemplate x:Key="SectionCardTemplate">
+            <Border Background="{DynamicResource KpCardBg}" CornerRadius="10" Padding="10,8,10,9"
+                    Margin="0,0,8,8" Width="292" SnapsToDevicePixels="True"
+                    BorderBrush="{DynamicResource KpCardBorder}" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="{Binding SectionName}" FontSize="10" FontWeight="SemiBold"
+                               Foreground="{DynamicResource KpSectionLabel}" Margin="6,0,0,4"
+                               Typography.Capitals="AllSmallCaps" />
+                    <Border Height="1" Background="{DynamicResource KpCardBorder}"
+                            Margin="6,0,2,5" SnapsToDevicePixels="True" />
+                    <ItemsControl ItemsSource="{Binding Entries}"
+                                  ItemTemplate="{StaticResource EntryTemplate}"
+                                  Grid.IsSharedSizeScope="True" />
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <!-- The visible panel. The window itself is larger transparent glass; fully
+         transparent areas are click-through, and hit testing uses this Border's rect. -->
+    <Border x:Name="PanelBorder" CornerRadius="14" Background="{DynamicResource KpPanelBg}"
+            BorderBrush="{DynamicResource KpPanelBorder}" BorderThickness="1" Padding="18,14,18,10"
+            VerticalAlignment="Top" HorizontalAlignment="Stretch" Opacity="0"
+            SnapsToDevicePixels="True" RenderTransformOrigin="0.5,0.5"
+            PreviewMouseLeftButtonDown="Panel_MouseDown">
+        <Border.RenderTransform>
+            <TranslateTransform x:Name="PanelSlide" Y="0" />
+        </Border.RenderTransform>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <!-- Auto, not star: the window keeps its size for the whole hold (resizing
+                     mid-hold reads as jitter), but the PANEL shrinks to its content, so
+                     narrowing the filter leaves a small card instead of a mostly empty
+                     rectangle. ZoneGrid.MaxHeight caps it — see SetContentMaxHeight. -->
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Header: hero caps (the held key) · app identity · search -->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ItemsControl Grid.Column="0" x:Name="HeroCaps"
+                              ItemTemplate="{StaticResource HeroCapTemplate}"
+                              VerticalAlignment="Center" Margin="0,0,12,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image x:Name="HeaderIcon" Width="28" Height="28" Margin="0,0,9,0"
+                           VerticalAlignment="Center" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="HeaderTitle" FontSize="17" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource KpText}" Text="KeyPeek" />
+                        <TextBlock x:Name="HeaderSubtitle" FontSize="11"
+                                   Foreground="{DynamicResource KpTextDim}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <Border Grid.Column="2" x:Name="SearchBorder" Background="{DynamicResource KpSearchBg}"
+                        BorderBrush="{DynamicResource KpSearchBorder}" BorderThickness="1" CornerRadius="8"
+                        Width="220" Height="30" VerticalAlignment="Center"
+                        Cursor="IBeam" PreviewMouseLeftButtonDown="SearchBorder_MouseDown">
+                    <Grid VerticalAlignment="Center">
+                        <TextBox x:Name="SearchBox" Background="Transparent" BorderThickness="0"
+                                 Foreground="{DynamicResource KpText}" CaretBrush="{DynamicResource KpText}"
+                                 FontSize="12.5" Padding="8,0" VerticalContentAlignment="Center"
+                                 TextChanged="SearchBox_TextChanged" />
+                        <TextBlock x:Name="SearchPlaceholder" Text="Search actions…"
+                                   FontSize="12" Foreground="{DynamicResource KpTextFaint}" Margin="10,0"
+                                   VerticalAlignment="Center" IsHitTestVisible="False" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Unknown-app / elevated hint -->
+            <Border Grid.Row="1" x:Name="HintBar" Background="{DynamicResource KpHintBg}" CornerRadius="8"
+                    Padding="12,7" Margin="0,0,0,10" Visibility="Collapsed">
+                <DockPanel LastChildFill="True">
+                    <Button x:Name="CreateDefButton" DockPanel.Dock="Right" Content="Create definition file"
+                            Click="CreateDef_Click" Visibility="Collapsed" Margin="10,0,0,0"
+                            Background="{DynamicResource KpButtonBg}" Foreground="{DynamicResource KpText}"
+                            BorderBrush="{DynamicResource KpButtonBorder}"
+                            Padding="10,3" Cursor="Hand" />
+                    <TextBlock x:Name="HintText" FontSize="12.5" Foreground="{DynamicResource KpHintText}"
+                               TextWrapping="Wrap" VerticalAlignment="Center" />
+                </DockPanel>
+            </Border>
+
+            <!-- Frequently used: what you reach for most, led by your own panel usage
+                 and falling back to the curated picks. -->
+            <StackPanel Grid.Row="2" x:Name="FrequentStrip" Margin="0,0,0,10"
+                        Visibility="Collapsed">
+                <TextBlock Text="FREQUENTLY USED" FontSize="10.5" FontWeight="SemiBold"
+                           Foreground="{DynamicResource KpZoneLabel}" Margin="2,0,0,6"
+                           Typography.Capitals="AllSmallCaps" />
+                <ItemsControl x:Name="FrequentItems">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{DynamicResource KpAccentSubtle}"
+                                    BorderBrush="{DynamicResource KpAccent}" BorderThickness="1"
+                                    CornerRadius="8" Padding="9,5" Margin="0,0,8,8" Cursor="Hand"
+                                    MouseLeftButtonUp="EntryRow_Click" ToolTip="{Binding Tooltip}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:KeyCapsElement Chords="{Binding Chords}"
+                                                       VerticalAlignment="Center" Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding Description}" FontSize="12"
+                                               Foreground="{DynamicResource KpText}"
+                                               VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis" MaxWidth="220" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- Two zones: the focused app (left) and system-wide (right rail). -->
+            <Grid Grid.Row="3" x:Name="ZoneGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="AppCol" Width="7*" />
+                    <ColumnDefinition x:Name="SepCol" Width="Auto" />
+                    <ColumnDefinition x:Name="SysCol" Width="3*" />
+                </Grid.ColumnDefinitions>
+
+                <DockPanel Grid.Column="0" x:Name="AppZonePanel" LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Top" x:Name="AppZoneHeader" FontSize="10.5"
+                               FontWeight="SemiBold" Foreground="{DynamicResource KpZoneLabel}" Margin="2,0,0,6"
+                               Typography.Capitals="AllSmallCaps" />
+                    <ScrollViewer x:Name="AppScroll" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled" Focusable="False">
+                        <ItemsControl x:Name="AppCards" ItemTemplate="{StaticResource SectionCardTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+
+                <Border Grid.Column="1" Width="1" Background="{DynamicResource KpSeparator}" Margin="4,2" />
+
+                <!-- The system rail is tinted so it reads as a different category at a glance -->
+                <Border Grid.Column="2" x:Name="SysZonePanel" Background="{DynamicResource KpRailBg}"
+                        CornerRadius="8" Padding="8,4,4,4" Margin="4,0,0,0">
+                    <DockPanel LastChildFill="True">
+                        <TextBlock DockPanel.Dock="Top" x:Name="SysZoneHeader" FontSize="10.5"
+                                   FontWeight="SemiBold" Foreground="{DynamicResource KpZoneLabel}" Margin="2,0,0,6"
+                                   Text="SYSTEM-WIDE" Typography.Capitals="AllSmallCaps" />
+                        <ScrollViewer x:Name="SysScroll" VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled" Focusable="False">
+                            <ItemsControl x:Name="SysCards" ItemTemplate="{StaticResource SectionCardTemplate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
+
+                <TextBlock x:Name="EmptyState" Grid.ColumnSpan="3" FontSize="14"
+                           Foreground="{DynamicResource KpTextDim}" HorizontalAlignment="Center" Margin="0,30"
+                           Visibility="Collapsed" Text="No shortcuts match the current filter." />
+            </Grid>
+
+            <!-- Footer -->
+            <DockPanel Grid.Row="4" Margin="2,9,2,0" LastChildFill="False">
+                <TextBlock DockPanel.Dock="Left" x:Name="FooterLeft" FontSize="11.5"
+                           Foreground="{DynamicResource KpTextDim}" />
+                <TextBlock DockPanel.Dock="Right" x:Name="FooterRight" FontSize="11.5"
+                           Foreground="{DynamicResource KpTextDim}" />
+            </DockPanel>
+        </Grid>
+    </Border>
+</Window>

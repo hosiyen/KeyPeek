@@ -1,0 +1,161 @@
+Name: Figma
+PackageName: Figma.Figma
+WindowFilter: Figma.exe
+BackgroundProcess: false
+Updated: 2026-08-13
+Shortcuts:
+- SectionName: Tools
+  Properties:
+  - Name: Select the Move tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - V
+  - Name: Select the Frame tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - F
+  - Name: Select the Rectangle tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - R
+  - Name: Select the Ellipse tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - O
+  - Name: Select the Text tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - T
+  - Name: Select the Pen tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - P
+- SectionName: Objects
+  Properties:
+  - Name: Group the selection
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - G
+  - Name: Ungroup the selection
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - G
+  - Name: Duplicate the selection
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - D
+  - Name: Create a component
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: true
+      Keys:
+      - K
+  - Name: Bring the selection forward
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - ']'
+  - Name: Send the selection backward
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - '['
+  - Name: Add auto layout
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - A
+- SectionName: View
+  Properties:
+  - Name: Open quick actions
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - /
+  - Name: Show or hide the UI
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - '\'
+  - Name: Zoom to fit
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - 1
+  - Name: Zoom to the selection
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - 2
+  - Name: Zoom to 100%
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - 0
