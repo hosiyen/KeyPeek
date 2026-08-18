@@ -1,0 +1,103 @@
+{
+  "app": "Microsoft PowerPoint",
+  "match": {
+    "processName": [
+      "POWERPNT"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "General": [
+        {
+          "key": "S",
+          "description": "Save the presentation",
+          "recommended": true
+        },
+        {
+          "key": "Z",
+          "description": "Undo the last action",
+          "recommended": true
+        },
+        {
+          "key": "F",
+          "description": "Find text"
+        },
+        {
+          "key": "P",
+          "description": "Print the presentation"
+        },
+        {
+          "key": "K",
+          "description": "Insert a hyperlink"
+        }
+      ],
+      "Slides & objects": [
+        {
+          "key": "M",
+          "description": "Insert a new slide",
+          "recommended": true
+        },
+        {
+          "key": "D",
+          "mods": [
+            "shift"
+          ],
+          "description": "Duplicate the current slide"
+        },
+        {
+          "key": "D",
+          "description": "Duplicate the selected object"
+        },
+        {
+          "key": "G",
+          "description": "Group the selected objects"
+        },
+        {
+          "key": "G",
+          "mods": [
+            "shift"
+          ],
+          "description": "Ungroup the selected group"
+        },
+        {
+          "key": "Up",
+          "description": "Move the slide up in order"
+        },
+        {
+          "key": "Down",
+          "description": "Move the slide down in order"
+        }
+      ]
+    },
+    "plain": {
+      "Presenting": [
+        {
+          "key": "F5",
+          "description": "Start the slide show",
+          "recommended": true
+        },
+        {
+          "key": "Esc",
+          "description": "End the slide show"
+        },
+        {
+          "key": "PageDown",
+          "description": "Go to the next slide"
+        },
+        {
+          "key": "PageUp",
+          "description": "Go to the previous slide"
+        }
+      ]
+    },
+    "alt": {
+      "Presenting": [
+        {
+          "key": "F5",
+          "description": "Start Presenter view",
+          "recommended": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "app": "Microsoft Excel",
+  "match": {
+    "processName": [
+      "EXCEL"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "General": [
+        {
+          "key": "S",
+          "description": "Save the workbook",
+          "recommended": true
+        },
+        {
+          "key": "Z",
+          "description": "Undo the last action",
+          "recommended": true
+        },
+        {
+          "key": "F",
+          "description": "Find in the worksheet",
+          "recommended": true
+        },
+        {
+          "key": "H",
+          "description": "Find and replace"
+        }
+      ],
+      "Editing & data": [
+        {
+          "key": "1",
+          "description": "Open the Format Cells dialog",
+          "recommended": true
+        },
+        {
+          "key": "D",
+          "description": "Fill down from the cell above"
+        },
+        {
+          "key": ";",
+          "description": "Enter today's date"
+        },
+        {
+          "key": "\u0060",
+          "description": "Toggle formula view"
+        },
+        {
+          "key": "T",
+          "description": "Create a table from the selection"
+        }
+      ],
+      "Navigation": [
+        {
+          "key": "Home",
+          "description": "Jump to the start of the sheet"
+        },
+        {
+          "key": "End",
+          "description": "Jump to the last used cell"
+        },
+        {
+          "key": "PageDown",
+          "description": "Go to the next sheet"
+        },
+        {
+          "key": "PageUp",
+          "description": "Go to the previous sheet"
+        },
+        {
+          "key": "Space",
+          "description": "Select the entire column"
+        }
+      ]
+    },
+    "plain": {
+      "Editing & data": [
+        {
+          "key": "F2",
+          "description": "Edit the active cell",
+          "recommended": true
+        },
+        {
+          "key": "F4",
+          "description": "Cycle absolute and relative references"
+        }
+      ]
+    },
+    "alt": {
+      "Editing & data": [
+        {
+          "key": "=",
+          "description": "Insert an AutoSum formula",
+          "recommended": true
+        }
+      ]
+    },
+    "shift": {
+      "Navigation": [
+        {
+          "key": "Space",
+          "description": "Select the entire row"
+        }
+      ]
+    }
+  }
+}

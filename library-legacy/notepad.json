@@ -1,0 +1,100 @@
+{
+  "app": "Notepad",
+  "match": {
+    "processName": [
+      "notepad"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "Files & tabs": [
+        {
+          "key": "N",
+          "description": "Open a new tab",
+          "recommended": true
+        },
+        {
+          "key": "N",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open a new window"
+        },
+        {
+          "key": "O",
+          "description": "Open a file"
+        },
+        {
+          "key": "S",
+          "description": "Save the file",
+          "recommended": true
+        },
+        {
+          "key": "S",
+          "mods": [
+            "shift"
+          ],
+          "description": "Save as"
+        },
+        {
+          "key": "W",
+          "description": "Close the current tab"
+        }
+      ],
+      "Editing": [
+        {
+          "key": "F",
+          "description": "Find text",
+          "recommended": true
+        },
+        {
+          "key": "H",
+          "description": "Replace text",
+          "recommended": true
+        },
+        {
+          "key": "G",
+          "description": "Go to a line number"
+        },
+        {
+          "key": "Z",
+          "description": "Undo the last edit"
+        },
+        {
+          "key": "F5",
+          "description": "Insert the time and date"
+        }
+      ],
+      "View": [
+        {
+          "key": "+",
+          "description": "Zoom in"
+        },
+        {
+          "key": "-",
+          "description": "Zoom out"
+        },
+        {
+          "key": "0",
+          "description": "Reset the zoom level"
+        }
+      ]
+    },
+    "plain": {
+      "Editing": [
+        {
+          "key": "F3",
+          "description": "Find the next match"
+        }
+      ]
+    },
+    "shift": {
+      "Editing": [
+        {
+          "key": "F3",
+          "description": "Find the previous match"
+        }
+      ]
+    }
+  }
+}

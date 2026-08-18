@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <!-- WinForms is referenced only for NotifyIcon (tray) and SystemEvents. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\KeyPeek.ico</ApplicationIcon>
+    <AssemblyName>KeyPeek</AssemblyName>
+    <RootNamespace>KeyPeek</RootNamespace>
+    <!-- Note: InvariantGlobalization is NOT enabled — WPF data binding needs real
+         culture data and crashes without it. -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <!-- WFAC010: the WinForms analyzer objects to DPI settings in app.manifest, but this
+         is a WPF app — PerMonitorV2 via manifest is exactly what we want. -->
+    <NoWarn>$(NoWarn);WFAC010</NoWarn>
+    <!-- 0.9: everything planned is built and verified, but the review sweep left known
+         defects listed in PLAN.md. 1.0 waits until those are closed. -->
+    <Version>0.9.0</Version>
+    <Product>KeyPeek</Product>
+    <AssemblyTitle>KeyPeek — keyboard shortcut overlay</AssemblyTitle>
+    <Description>Hold a modifier key to see the keyboard shortcuts of the app you're in.</Description>
+    <Company>KeyPeek</Company>
+    <Copyright>MIT licensed. Shortcut data derived from Microsoft PowerToys (MIT).</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KeyPeek.Core\KeyPeek.Core.csproj" />
+  </ItemGroup>
+
+  <!-- WPF is the primary UI framework; keep the WinForms/Drawing namespaces out of the
+       global usings so Application, Timer, MessageBox etc. aren't ambiguous. -->
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\KeyPeek.ico" />
+  </ItemGroup>
+
+  <!-- The bundled library layer ships inside the exe (read-only, replaced wholesale on
+       app update): PowerToys Shortcut Guide manifests + curated supplements. -->
+  <ItemGroup>
+    <!-- WithCulture=false: the ".en-US" in PowerToys manifest filenames would otherwise
+         be culture-inferred, shunted into an en-US satellite assembly, and then dropped
+         by SatelliteResourceLanguages — silently losing 15 of 17 manifests. -->
+    <EmbeddedResource Include="..\..\library\*.yml" LogicalName="bundled/%(Filename)%(Extension)" WithCulture="false" />
+    <!-- Legacy JSON seeds, embedded ONLY so the one-time migration can recognise (and
+         remove) unmodified copies that older builds extracted into the user folder. -->
+    <EmbeddedResource Include="..\..\library-legacy\*.json" LogicalName="seedlegacy/%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

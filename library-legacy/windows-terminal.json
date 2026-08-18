@@ -1,0 +1,133 @@
+{
+  "app": "Windows Terminal",
+  "match": {
+    "processName": [
+      "WindowsTerminal"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "General": [
+        {
+          "key": "P",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open the command palette",
+          "recommended": true
+        },
+        {
+          "key": "F",
+          "mods": [
+            "shift"
+          ],
+          "description": "Find text in the buffer",
+          "recommended": true
+        },
+        {
+          "key": ",",
+          "description": "Open the settings UI"
+        }
+      ],
+      "Tabs & panes": [
+        {
+          "key": "T",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open a new tab",
+          "recommended": true
+        },
+        {
+          "key": "Tab",
+          "description": "Switch to the next tab"
+        },
+        {
+          "key": "Tab",
+          "mods": [
+            "shift"
+          ],
+          "description": "Switch to the previous tab"
+        },
+        {
+          "key": "D",
+          "mods": [
+            "shift"
+          ],
+          "description": "Duplicate the current tab"
+        },
+        {
+          "key": "W",
+          "mods": [
+            "shift"
+          ],
+          "description": "Close the current pane or tab"
+        }
+      ],
+      "Text & display": [
+        {
+          "key": "C",
+          "mods": [
+            "shift"
+          ],
+          "description": "Copy the selection",
+          "recommended": true
+        },
+        {
+          "key": "V",
+          "mods": [
+            "shift"
+          ],
+          "description": "Paste from the clipboard",
+          "recommended": true
+        },
+        {
+          "key": "+",
+          "description": "Increase the font size"
+        },
+        {
+          "key": "-",
+          "description": "Decrease the font size"
+        },
+        {
+          "key": "0",
+          "description": "Reset the font size"
+        }
+      ]
+    },
+    "plain": {
+      "General": [
+        {
+          "key": "F11",
+          "description": "Toggle full screen"
+        }
+      ]
+    },
+    "win": {
+      "General": [
+        {
+          "key": "\u0060",
+          "description": "Toggle the quake-mode window"
+        }
+      ]
+    },
+    "alt": {
+      "Tabs & panes": [
+        {
+          "key": "+",
+          "mods": [
+            "shift"
+          ],
+          "description": "Split the pane vertically"
+        },
+        {
+          "key": "-",
+          "mods": [
+            "shift"
+          ],
+          "description": "Split the pane horizontally"
+        }
+      ]
+    }
+  }
+}

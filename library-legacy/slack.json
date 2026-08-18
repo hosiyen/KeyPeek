@@ -1,0 +1,114 @@
+{
+  "app": "Slack",
+  "match": {
+    "processName": [
+      "slack"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "Navigation": [
+        {
+          "key": "K",
+          "description": "Jump to a conversation",
+          "recommended": true
+        },
+        {
+          "key": "T",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open the Threads view"
+        }
+      ],
+      "Messages": [
+        {
+          "key": "N",
+          "description": "Compose a new message",
+          "recommended": true
+        },
+        {
+          "key": "B",
+          "description": "Bold the selected text",
+          "recommended": true
+        },
+        {
+          "key": "I",
+          "description": "Italicize the selected text"
+        },
+        {
+          "key": "X",
+          "mods": [
+            "shift"
+          ],
+          "description": "Strike through the selected text"
+        },
+        {
+          "key": "C",
+          "mods": [
+            "shift"
+          ],
+          "description": "Format the selection as inline code"
+        }
+      ],
+      "General": [
+        {
+          "key": "G",
+          "description": "Search your workspace",
+          "recommended": true
+        },
+        {
+          "key": "F",
+          "description": "Search the current conversation",
+          "recommended": true
+        },
+        {
+          "key": ",",
+          "description": "Open preferences"
+        }
+      ]
+    },
+    "alt": {
+      "Navigation": [
+        {
+          "key": "Up",
+          "description": "Go to the previous channel or DM"
+        },
+        {
+          "key": "Down",
+          "description": "Go to the next channel or DM"
+        },
+        {
+          "key": "Left",
+          "description": "Go back in history"
+        },
+        {
+          "key": "Right",
+          "description": "Go forward in history"
+        }
+      ]
+    },
+    "shift": {
+      "Messages": [
+        {
+          "key": "Enter",
+          "description": "Start a new line"
+        }
+      ],
+      "General": [
+        {
+          "key": "Esc",
+          "description": "Mark all messages as read"
+        }
+      ]
+    },
+    "plain": {
+      "General": [
+        {
+          "key": "Esc",
+          "description": "Mark the conversation as read"
+        }
+      ]
+    }
+  }
+}

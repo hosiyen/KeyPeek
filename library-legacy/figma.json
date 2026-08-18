@@ -1,0 +1,121 @@
+{
+  "app": "Figma",
+  "match": {
+    "processName": [
+      "Figma"
+    ]
+  },
+  "tables": {
+    "plain": {
+      "Tools": [
+        {
+          "key": "V",
+          "description": "Select the Move tool"
+        },
+        {
+          "key": "F",
+          "description": "Select the Frame tool"
+        },
+        {
+          "key": "R",
+          "description": "Select the Rectangle tool"
+        },
+        {
+          "key": "O",
+          "description": "Select the Ellipse tool"
+        },
+        {
+          "key": "T",
+          "description": "Select the Text tool"
+        },
+        {
+          "key": "P",
+          "description": "Select the Pen tool"
+        }
+      ]
+    },
+    "ctrl": {
+      "Objects": [
+        {
+          "key": "G",
+          "description": "Group the selection",
+          "recommended": true
+        },
+        {
+          "key": "G",
+          "mods": [
+            "shift"
+          ],
+          "description": "Ungroup the selection"
+        },
+        {
+          "key": "D",
+          "description": "Duplicate the selection",
+          "recommended": true
+        },
+        {
+          "key": "K",
+          "mods": [
+            "alt"
+          ],
+          "description": "Create a component",
+          "recommended": true
+        },
+        {
+          "key": "]",
+          "description": "Bring the selection forward"
+        },
+        {
+          "key": "[",
+          "description": "Send the selection backward"
+        }
+      ],
+      "View": [
+        {
+          "key": "/",
+          "description": "Open quick actions",
+          "recommended": true
+        },
+        {
+          "key": "\\",
+          "description": "Show or hide the UI"
+        }
+      ]
+    },
+    "shift": {
+      "Objects": [
+        {
+          "key": "A",
+          "description": "Add auto layout",
+          "recommended": true
+        }
+      ],
+      "View": [
+        {
+          "key": "1",
+          "description": "Zoom to fit"
+        },
+        {
+          "key": "2",
+          "description": "Zoom to the selection"
+        },
+        {
+          "key": "0",
+          "description": "Zoom to 100%"
+        }
+      ]
+    },
+    "alt": {
+      "Objects": [
+        {
+          "key": "K",
+          "mods": [
+            "ctrl"
+          ],
+          "description": "Create a component",
+          "recommended": true
+        }
+      ]
+    }
+  }
+}

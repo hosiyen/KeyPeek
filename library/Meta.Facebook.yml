@@ -1,0 +1,80 @@
+Name: Facebook
+PackageName: Meta.Facebook
+WindowFilter: msedge.exe
+AdditionalWindowFilters:
+- chrome.exe
+- firefox.exe
+- brave.exe
+BackgroundProcess: false
+TitleRegex: Facebook
+Updated: 2026-08-17
+Shortcuts:
+- SectionName: News feed
+  Properties:
+  - Name: Next post
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - J
+  - Name: Previous post
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - K
+  - Name: Like or unlike the post
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - L
+  - Name: Comment on the post
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - C
+  - Name: Share the post
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - S
+  - Name: Create a new post
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - P
+  - Name: Search
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - /
+  - Name: Search Messenger chats
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - Q

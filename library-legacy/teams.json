@@ -1,0 +1,111 @@
+{
+  "app": "Microsoft Teams",
+  "match": {
+    "processName": [
+      "ms-teams",
+      "Teams"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "General": [
+        {
+          "key": "E",
+          "description": "Go to search",
+          "recommended": true
+        },
+        {
+          "key": "G",
+          "description": "Jump to a chat or channel",
+          "recommended": true
+        },
+        {
+          "key": "N",
+          "description": "Start a new chat"
+        },
+        {
+          "key": ",",
+          "description": "Open settings"
+        },
+        {
+          "key": ".",
+          "description": "Show keyboard shortcuts",
+          "recommended": true
+        }
+      ],
+      "Messaging": [
+        {
+          "key": "X",
+          "mods": [
+            "shift"
+          ],
+          "description": "Expand the compose box"
+        },
+        {
+          "key": "Enter",
+          "description": "Send the message"
+        },
+        {
+          "key": "K",
+          "description": "Insert a link"
+        },
+        {
+          "key": "I",
+          "mods": [
+            "shift"
+          ],
+          "description": "Mark the message as important"
+        },
+        {
+          "key": "F",
+          "description": "Find in the current chat"
+        }
+      ],
+      "Meetings & calls": [
+        {
+          "key": "M",
+          "mods": [
+            "shift"
+          ],
+          "description": "Toggle mute",
+          "recommended": true
+        },
+        {
+          "key": "Space",
+          "description": "Unmute temporarily while held"
+        },
+        {
+          "key": "O",
+          "mods": [
+            "shift"
+          ],
+          "description": "Toggle your camera",
+          "recommended": true
+        },
+        {
+          "key": "K",
+          "mods": [
+            "shift"
+          ],
+          "description": "Raise or lower your hand",
+          "recommended": true
+        },
+        {
+          "key": "H",
+          "mods": [
+            "shift"
+          ],
+          "description": "Hang up the call"
+        }
+      ]
+    },
+    "shift": {
+      "Messaging": [
+        {
+          "key": "Enter",
+          "description": "Start a new line"
+        }
+      ]
+    }
+  }
+}

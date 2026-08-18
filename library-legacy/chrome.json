@@ -1,0 +1,129 @@
+{
+  "app": "Google Chrome",
+  "match": {
+    "processName": [
+      "chrome"
+    ]
+  },
+  "tables": {
+    "ctrl": {
+      "Tabs & windows": [
+        {
+          "key": "T",
+          "description": "Open a new tab",
+          "recommended": true
+        },
+        {
+          "key": "T",
+          "mods": [
+            "shift"
+          ],
+          "description": "Reopen the last closed tab",
+          "recommended": true
+        },
+        {
+          "key": "W",
+          "description": "Close the current tab",
+          "recommended": true
+        },
+        {
+          "key": "Tab",
+          "description": "Go to the next tab"
+        },
+        {
+          "key": "Tab",
+          "mods": [
+            "shift"
+          ],
+          "description": "Go to the previous tab"
+        },
+        {
+          "key": "1",
+          "description": "Jump to a specific tab (1 through 8)"
+        },
+        {
+          "key": "9",
+          "description": "Jump to the last tab"
+        },
+        {
+          "key": "N",
+          "description": "Open a new window"
+        },
+        {
+          "key": "N",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open a new Incognito window",
+          "recommended": true
+        }
+      ],
+      "Navigation & page": [
+        {
+          "key": "L",
+          "description": "Focus the address bar",
+          "recommended": true
+        },
+        {
+          "key": "F",
+          "description": "Find on the page",
+          "recommended": true
+        },
+        {
+          "key": "R",
+          "description": "Reload the page"
+        },
+        {
+          "key": "R",
+          "mods": [
+            "shift"
+          ],
+          "description": "Hard reload (ignore cache)"
+        },
+        {
+          "key": "D",
+          "description": "Bookmark the current page"
+        },
+        {
+          "key": "H",
+          "description": "Open history"
+        },
+        {
+          "key": "J",
+          "description": "Open downloads"
+        },
+        {
+          "key": "I",
+          "mods": [
+            "shift"
+          ],
+          "description": "Open Developer Tools"
+        },
+        {
+          "key": "+",
+          "description": "Zoom in"
+        },
+        {
+          "key": "-",
+          "description": "Zoom out"
+        },
+        {
+          "key": "0",
+          "description": "Reset zoom"
+        }
+      ]
+    },
+    "alt": {
+      "Navigation & page": [
+        {
+          "key": "Left",
+          "description": "Go back"
+        },
+        {
+          "key": "Right",
+          "description": "Go forward"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,161 @@
+Name: Adobe Photoshop
+PackageName: Adobe.Photoshop
+WindowFilter: Photoshop.exe
+BackgroundProcess: false
+Updated: 2026-08-13
+Shortcuts:
+- SectionName: Tools
+  Properties:
+  - Name: Select the Move tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - V
+  - Name: Select the Brush tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - B
+  - Name: Select the Eraser tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - E
+  - Name: Select the Type tool
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - T
+  - Name: Decrease the brush size
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - '['
+  - Name: Increase the brush size
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - ']'
+  - Name: Swap foreground and background colors
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - X
+- SectionName: Layers
+  Properties:
+  - Name: Show or hide the Layers panel
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - F7
+  - Name: Create a new layer
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - N
+  - Name: Duplicate to a new layer
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - J
+  - Name: Group the selected layers
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - G
+  - Name: Create or release a clipping mask
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: true
+      Keys:
+      - G
+  - Name: Merge visible layers
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - E
+- SectionName: Editing
+  Properties:
+  - Name: Free Transform the selection or layer
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - T
+  - Name: Undo the last action
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - Z
+  - Name: Step forward in history
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: true
+      Alt: false
+      Keys:
+      - Z
+  - Name: Deselect the current selection
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - D
+  - Name: Open the Curves dialog
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - M

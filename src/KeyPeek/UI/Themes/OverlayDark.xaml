@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- KeyPeek dark palette (default). Swapped wholesale by ThemeManager.
+         ONE accent hue for the whole product (overlay + settings). -->
+
+    <!-- surfaces -->
+    <SolidColorBrush x:Key="KpBg" Color="#FF15151E" />
+    <SolidColorBrush x:Key="KpSurface" Color="#FF1E1E2A" />
+    <SolidColorBrush x:Key="KpSurface2" Color="#FF262636" />
+    <SolidColorBrush x:Key="KpLine" Color="#26FFFFFF" />
+
+    <!-- accent -->
+    <SolidColorBrush x:Key="KpAccent" Color="#FF6E8BFF" />
+    <SolidColorBrush x:Key="KpAccentSubtle" Color="#386E8BFF" />
+    <SolidColorBrush x:Key="KpOnAccent" Color="#FFFFFFFF" />
+
+    <!-- text: body text is never the dim token (contrast) -->
+    <SolidColorBrush x:Key="KpText" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="KpTextBody" Color="#E8EDEDF7" />
+    <SolidColorBrush x:Key="KpTextDim" Color="#A8FFFFFF" />
+    <SolidColorBrush x:Key="KpTextFaint" Color="#70FFFFFF" />
+    <SolidColorBrush x:Key="KpTextDisabled" Color="#59FFFFFF" />
+    <SolidColorBrush x:Key="KpSectionLabel" Color="#9EFFFFFF" />
+    <SolidColorBrush x:Key="KpZoneLabel" Color="#8AFFFFFF" />
+
+    <!-- status -->
+    <SolidColorBrush x:Key="KpWarn" Color="#FFFFC66D" />
+    <SolidColorBrush x:Key="KpGood" Color="#FF7CE38B" />
+    <SolidColorBrush x:Key="KpBad" Color="#FFFF8B8B" />
+
+    <!-- overlay panel -->
+    <SolidColorBrush x:Key="KpPanelBg" Color="#FF1B1B27" />
+    <SolidColorBrush x:Key="KpPanelBorder" Color="#40FFFFFF" />
+    <!-- Hairline around a card and under its title: a card that is only a slightly
+         lighter fill dissolves into the panel on a busy desktop. -->
+    <SolidColorBrush x:Key="KpCardBorder" Color="#22FFFFFF" />
+    <SolidColorBrush x:Key="KpCardBg" Color="#1CFFFFFF" />
+    <SolidColorBrush x:Key="KpRailBg" Color="#12FFFFFF" />
+    <SolidColorBrush x:Key="KpHover" Color="#22FFFFFF" />
+    <SolidColorBrush x:Key="KpSeparator" Color="#2AFFFFFF" />
+
+    <!-- key caps -->
+    <SolidColorBrush x:Key="KpCapText" Color="#FFEAEAF4" />
+    <SolidColorBrush x:Key="KpCapBorder" Color="#FF5A6070" />
+    <LinearGradientBrush x:Key="KpCapBg" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#3E3E56" Offset="0" />
+        <GradientStop Color="#30303F" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="KpHeroBorder" Color="#FF8CA0FF" />
+    <LinearGradientBrush x:Key="KpHeroBg" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#4E63C8" Offset="0" />
+        <GradientStop Color="#3E50A8" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="KpStar" Color="#FF9DB0FF" />
+
+    <!-- misc overlay -->
+    <SolidColorBrush x:Key="KpHintBg" Color="#332E6BE6" />
+    <SolidColorBrush x:Key="KpHintText" Color="#E6E6F0FF" />
+    <SolidColorBrush x:Key="KpSearchBg" Color="#14FFFFFF" />
+    <SolidColorBrush x:Key="KpSearchBorder" Color="#33FFFFFF" />
+    <SolidColorBrush x:Key="KpButtonBg" Color="#556E8BFF" />
+    <SolidColorBrush x:Key="KpButtonBorder" Color="#886E8BFF" />
+
+    <!-- provenance dots -->
+    <SolidColorBrush x:Key="KpDotUser" Color="#FF6E8BFF" />
+    <SolidColorBrush x:Key="KpDotDownloaded" Color="#FF57C7D9" />
+    <SolidColorBrush x:Key="KpDotDiscovered" Color="#FF7CE38B" />
+
+    <CornerRadius x:Key="KpRadius">8</CornerRadius>
+</ResourceDictionary>

@@ -1,0 +1,204 @@
+Name: Gmail
+PackageName: Google.Gmail
+WindowFilter: msedge.exe
+AdditionalWindowFilters:
+- chrome.exe
+- firefox.exe
+- brave.exe
+BackgroundProcess: false
+# The tab title always carries the product name, in every UI language.
+TitleRegex: Gmail
+Updated: 2026-08-17
+Shortcuts:
+- SectionName: Compose and send
+  Properties:
+  - Name: Compose a new message
+    Description: Needs keyboard shortcuts turned on in Gmail Settings, General.
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - C
+  - Name: Send the message
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: true
+      Shift: false
+      Alt: false
+      Keys:
+      - Enter
+  - Name: Reply
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - R
+  - Name: Reply all
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - A
+  - Name: Forward
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - F
+- SectionName: Triage
+  Properties:
+  - Name: Archive the conversation
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - E
+  - Name: Delete the conversation
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - "#"
+  - Name: Star or unstar
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - S
+  - Name: Mark as unread
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: true
+      Alt: false
+      Keys:
+      - U
+  - Name: Undo the last action
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - Z
+- SectionName: Navigate
+  Properties:
+  - Name: Search mail
+    Recommended: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - /
+  - Name: Newer conversation
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - K
+  - Name: Older conversation
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - J
+  - Name: Open the conversation
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - O
+  - Name: Back to the conversation list
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - U
+  - Name: Go to Inbox
+    Sequence: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - G
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - I
+  - Name: Go to Starred
+    Sequence: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - G
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - S
+  - Name: Go to Sent
+    Sequence: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - G
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - T
+  - Name: Go to Drafts
+    Sequence: true
+    Shortcut:
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - G
+    - Win: false
+      Ctrl: false
+      Shift: false
+      Alt: false
+      Keys:
+      - D
